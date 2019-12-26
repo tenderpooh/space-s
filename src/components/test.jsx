@@ -14,8 +14,6 @@ const Test = () => {
           ...doc.data()
         }));
         setTests(newTests);
-        console.log(tests);
-        console.log(newTests);
       });
   }, []);
   return (
