@@ -13,7 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../context/AppProvider";
 import route from "../route/Route";
 
 const useStyles = makeStyles(theme => ({
@@ -65,8 +65,6 @@ export default function SideBar() {
     AppContext
   );
 
-  console.log(content);
-
   return (
     <Drawer
       variant="permanent"
@@ -92,16 +90,17 @@ export default function SideBar() {
       </div>
       <Divider />
       <List>
-        {route.map((route, index) => (
+        {route.map((option, index) => (
           <ListItem
             button
-            key={route.text}
+            key={option.text}
             onClick={() => {
-              contentSelect(route.text);
+              contentSelect(option.text);
             }}
+            selected={option.text === content}
           >
-            <ListItemIcon>{route.icon}</ListItemIcon>
-            <ListItemText primary={route.text} />
+            <ListItemIcon>{option.icon}</ListItemIcon>
+            <ListItemText primary={option.text} />
           </ListItem>
         ))}
       </List>

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import AppContext from "./AppContext";
+import React, { useState, createContext } from "react";
+
+export const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const menuToggle = () => {
@@ -22,7 +23,7 @@ const AppProvider = ({ children }) => {
 
   const initialState = {
     menuOpened: false,
-    content: "main",
+    content: "사업 현황",
     menuToggle,
     contentSelect
   };

@@ -5,26 +5,34 @@ import BuildIcon from "@material-ui/icons/Build";
 import FlightTakeoffIcon from "@material-ui/icons/FlightTakeoff";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 
+import Map from "../components/Contents/Map";
+import Dashboard from "../components/Contents/Dashboard";
+
 const route = [
   {
     text: "지도",
-    icon: <MapIcon />
+    icon: <MapIcon />,
+    component: <Map />
   },
   {
     text: "사업 현황",
-    icon: <DashboardIcon />
+    icon: <DashboardIcon />,
+    component: <Dashboard />
   },
   {
     text: "우주선 조립/분해",
-    icon: <BuildIcon />
+    icon: <BuildIcon />,
+    component: <Map />
   },
   {
     text: "우주선 운전",
-    icon: <FlightTakeoffIcon />
+    icon: <FlightTakeoffIcon />,
+    component: <Map />
   },
   {
     text: "자산 관리",
-    icon: <MonetizationOnIcon />
+    icon: <MonetizationOnIcon />,
+    component: <Map />
   }
 ];
 
