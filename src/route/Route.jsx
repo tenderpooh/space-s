@@ -7,6 +7,7 @@ import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 
 import Map from "../components/Contents/Map";
 import Dashboard from "../components/Contents/Dashboard";
+import Assembly from "../components/Contents/Assembly";
 
 const route = [
   {
@@ -22,7 +23,7 @@ const route = [
   {
     text: "우주선 조립/분해",
     icon: <BuildIcon />,
-    component: <Map />
+    component: <Assembly />
   },
   {
     text: "우주선 운전",
