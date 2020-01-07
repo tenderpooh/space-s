@@ -91,7 +91,7 @@ export default function RankTable() {
     setPage(0);
   };
 
-  const isSelected = name => selected.indexOf(name) !== -1;
+  // const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -114,7 +114,7 @@ export default function RankTable() {
             {stableSort(rows, getSorting(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const isItemSelected = isSelected(row.name);
+                // const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
