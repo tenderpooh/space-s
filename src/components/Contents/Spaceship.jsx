@@ -1,17 +1,20 @@
 import React from "react";
 import {
+  Button,
+  ButtonGroup,
   Paper,
   Box,
   Divider,
   Grid,
   FormControl,
-  InputLabel,
   Select,
   MenuItem
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import BuildIcon from "@material-ui/icons/Build";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -29,7 +32,8 @@ const useStyles = makeStyles(theme => ({
   },
   parts: {
     marginLeft: 20
-  }
+  },
+  selectEmpty: {}
 }));
 
 const SpaceshipRow = ({ children }) => {
@@ -50,8 +54,14 @@ const SpaceshipRow = ({ children }) => {
 export default function Spaceship() {
   const classes = useStyles();
   const [capsule, setCapsule] = React.useState("");
+  const [passenger, setPassenger] = React.useState(1);
+  const currentPassenger = 10;
   const handleChange = event => {
     setCapsule(event.target.value);
+  };
+  const handleNumber = e => {
+    console.log(e.currentTarget.value);
+    setPassenger(Number(passenger) + Number(e.currentTarget.value));
   };
   return (
     <Paper className={classes.paper}>
@@ -74,12 +84,8 @@ export default function Spaceship() {
         <Grid container item className={classes.parts}>
           <SpaceshipRow>
             <Box fontWeight="fontWeightBold">승차 캡슐</Box>
-          </SpaceshipRow>
-          <SpaceshipRow>
             <Divider style={{ width: "100%" }} />
-          </SpaceshipRow>
-          <SpaceshipRow>
-            <Box>캡슐</Box>
+            <Box flexGrow={1}>캡슐</Box>
             <FormControl className={classes.formControl}>
               <Select
                 value={capsule}
@@ -90,11 +96,73 @@ export default function Spaceship() {
                 <MenuItem value="">
                   <em>선택</em>
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={"capsuleLV.1"}>10인승 캡슐</MenuItem>
+                <MenuItem value={"capsuleLV.2"}>50인승 캡슐</MenuItem>
+                <MenuItem value={"capsuleLV.3"}>100인승 캡슐</MenuItem>
               </Select>
             </FormControl>
+          </SpaceshipRow>
+          <SpaceshipRow>
+            <Box fontWeight="fontWeightBold">승객 및 보급품</Box>
+            <Divider style={{ width: "100%" }} />
+            <Grid container alignItems="center" style={{ marginTop: 5 }}>
+              <Box flexGrow={1}>승객</Box>
+              <Box flexGrow={1}>
+                <ButtonGroup
+                  fullWidth={true}
+                  variant="text"
+                  size="small"
+                  style={{ display: "flex" }}
+                >
+                  <Button
+                    value={-1}
+                    onClick={handleNumber}
+                    disabled={passenger <= 0}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                  <Button color="primary" disabled style={{ color: "black" }}>
+                    {passenger}
+                  </Button>
+                  <Button
+                    value={1}
+                    onClick={handleNumber}
+                    disabled={passenger >= currentPassenger}
+                  >
+                    <AddIcon />
+                  </Button>
+                </ButtonGroup>
+              </Box>
+            </Grid>
+            <Grid container alignItems="center" style={{ marginTop: 5 }}>
+              <Box flexGrow={1}>승객</Box>
+              <Box flexGrow={1}>
+                <ButtonGroup
+                  fullWidth={true}
+                  variant="text"
+                  size="small"
+                  style={{ display: "flex" }}
+                >
+                  <Button
+                    value={-1}
+                    onClick={handleNumber}
+                    disabled={passenger <= 0}
+                  >
+                    <RemoveIcon />
+                  </Button>
+                  <Button color="primary" disabled style={{ color: "black" }}>
+                    {passenger}
+                  </Button>
+                  <Button
+                    value={1}
+                    onClick={handleNumber}
+                    disabled={passenger >= currentPassenger}
+                  >
+                    <AddIcon />
+                  </Button>
+                </ButtonGroup>
+              </Box>
+            </Grid>
           </SpaceshipRow>
         </Grid>
       </Grid>
