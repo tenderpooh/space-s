@@ -23,7 +23,7 @@ const AppProvider = ({ children }) => {
 
   const initialState = {
     menuOpened: false,
-    content: "우주선 조립/분해",
+    content: "자산 관리",
     menuToggle,
     contentSelect
   };

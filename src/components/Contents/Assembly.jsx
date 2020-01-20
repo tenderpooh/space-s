@@ -1,32 +1,40 @@
 import React from "react";
-import { Grid, Paper } from "@material-ui/core";
+import { GridList, GridListTile } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Spaceship from "./Spaceship";
+import Spaceship from "./Assembly/Spaceship";
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary
+  gridList: {
+    flexWrap: "nowrap",
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: "translateZ(0)"
   }
 }));
 
 export default function Assembly() {
   const classes = useStyles();
   return (
-    <>
-      <Grid item xs={3}>
+    <GridList
+      className={classes.gridList}
+      cellHeight="auto"
+      cols={4}
+      spacing={10}
+    >
+      <GridListTile>
         <Spaceship />
-      </Grid>
-      <Grid item xs={3}>
-        <Paper className={classes.paper}>지도</Paper>
-      </Grid>
-      <Grid item xs={3}>
-        <Paper className={classes.paper}>지도</Paper>
-      </Grid>
-      <Grid item xs={3}>
-        <Paper className={classes.paper}>지도</Paper>
-      </Grid>
-    </>
+      </GridListTile>
+      <GridListTile>
+        <Spaceship />
+      </GridListTile>
+      <GridListTile>
+        <Spaceship />
+      </GridListTile>
+      <GridListTile>
+        <Spaceship />
+      </GridListTile>
+      <GridListTile>
+        <Spaceship />
+      </GridListTile>
+    </GridList>
   );
 }
