@@ -23,7 +23,7 @@ const AppProvider = ({ children }) => {
 
   const initialState = {
     menuOpened: false,
-    content: "자산 관리",
+    content: "지도",
     menuToggle,
     contentSelect
   };

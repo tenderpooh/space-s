@@ -3,7 +3,6 @@ import { Grid, Paper, Box, Divider, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   MonetizationOn,
-  Autorenew,
   AccountBalanceWallet,
   TrendingUp,
   Flight,
@@ -28,8 +27,8 @@ const funds = [
     icon: (
       <MonetizationOn
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: yellow["A400"]
         }}
       />
@@ -42,8 +41,8 @@ const funds = [
     icon: (
       <AccountBalanceWallet
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: green[600]
         }}
       />
@@ -56,8 +55,8 @@ const funds = [
     icon: (
       <IndeterminateCheckBox
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: red[500]
         }}
       />
@@ -70,8 +69,8 @@ const funds = [
     icon: (
       <TrendingUp
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: deepPurple[500]
         }}
       />
@@ -87,8 +86,8 @@ const assets = [
     icon: (
       <Flight
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: "black"
         }}
       />
@@ -101,8 +100,8 @@ const assets = [
     icon: (
       <Flight
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: green[400]
         }}
       />
@@ -115,8 +114,8 @@ const assets = [
     icon: (
       <Flight
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: yellow[600]
         }}
       />
@@ -129,8 +128,8 @@ const assets = [
     icon: (
       <Flight
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: red[400]
         }}
       />
@@ -143,8 +142,8 @@ const assets = [
     icon: (
       <AirlineSeatReclineNormal
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: grey[700]
         }}
       />
@@ -157,8 +156,8 @@ const assets = [
     icon: (
       <AirlineSeatReclineNormal
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: green[400]
         }}
       />
@@ -171,8 +170,8 @@ const assets = [
     icon: (
       <AirlineSeatReclineNormal
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: red[400]
         }}
       />
@@ -185,8 +184,8 @@ const assets = [
     icon: (
       <Shop
         style={{
-          width: 80,
-          height: 80,
+          width: 50,
+          height: 50,
           color: "black"
         }}
       />
@@ -201,11 +200,11 @@ const AssetPaper = props => {
       <Box display="flex" alignItems="center">
         <Box width="40%">{props.icon}</Box>
         <Box width="60%">
-          <Box fontSize={24} fontWeight="fontWeightLight" textAlign="right">
+          <Box fontSize={18} fontWeight="fontWeightLight" textAlign="right">
             {props.title}
           </Box>
           <Box
-            fontSize={42}
+            fontSize={24}
             fontWeight="fontWeightBold"
             textAlign="right"
             color={props.amount > 0 ? "black" : red[500]}
@@ -226,6 +225,7 @@ const AssetPaper = props => {
           >
             <Button
               variant="outlined"
+              size="small"
               fullWidth
               style={{ marginLeft: 20, marginRight: 20 }}
             >
@@ -248,8 +248,6 @@ const AssetPaper = props => {
 };
 
 export default function Asset() {
-  const classes = useStyles();
-
   return (
     <Grid container item xs={12} spacing={3}>
       <Grid item xs={12}>

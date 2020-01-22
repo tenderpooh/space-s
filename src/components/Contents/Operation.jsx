@@ -4,7 +4,7 @@ import ShipOperation from "./Operation/ShipOperation";
 
 export default function Operation() {
   return (
-    <Grid container item spacing={3} xs={6}>
+    <Grid container item spacing={3} xs={12}>
       <ShipOperation no={1} />
       <ShipOperation no={2} />
       <ShipOperation no={3} />
