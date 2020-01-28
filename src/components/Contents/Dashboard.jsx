@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import RankTable from "./Table/RankTable";
 import MilestoneTable from "./Table/MilestoneTable";
 
+import Timer from "./Dashboard/Timer";
+
 const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
@@ -22,28 +24,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const remainTime = "00:00";
+
   return (
     <>
       <Grid container item spacing={2}>
         <Grid item xs={3}>
-          <Paper className={classes.paper} justifyContent="center">
-            <Box
-              fontWeight="fontWeightBold"
-              fontSize="h6.fontSize"
-              textAlign="center"
-            >
-              라운드 시간
-            </Box>
-            <Box
-              lineHeight="normal"
-              fontWeight="fontWeightBold"
-              fontSize="h1.fontSize"
-              textAlign="center"
-            >
-              {remainTime}
-            </Box>
-          </Paper>
+          <Timer />
         </Grid>
         <Grid item xs={9}>
           <Paper className={classes.paper}>

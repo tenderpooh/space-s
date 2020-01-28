@@ -225,7 +225,6 @@ const AssetPaper = props => {
           >
             <Button
               variant="outlined"
-              size="small"
               fullWidth
               style={{ marginLeft: 20, marginRight: 20 }}
             >

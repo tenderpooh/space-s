@@ -2,7 +2,6 @@ import React from "react";
 import {
   Grid,
   Button,
-  ButtonGroup,
   Box,
   ClickAwayListener,
   Popper,
@@ -10,16 +9,17 @@ import {
   MenuList,
   MenuItem
 } from "@material-ui/core";
+import { destinations } from "../../../variables/Destinations";
+import ConfirmOperation from "./ConfirmOperation";
 
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { LocationOn } from "@material-ui/icons";
-
-const options = ["도착지", "탄도 비행", "달 접근 비행"];
+import { LocationOn, ArrowDropDown, ArrowRightAlt } from "@material-ui/icons";
 
 export default function ShipOperation(props) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const { name, location, assembled, destination } = props.data;
+  const options = destinations[location.replace(/\s/g, "")];
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -31,46 +31,61 @@ export default function ShipOperation(props) {
   };
 
   const handleClose = event => {
-    console.log(anchorRef.current.contains(event.target));
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    if (location && location !== destination) {
+      const newIndex = options.findIndex(x => x.destination === destination);
+      setSelectedIndex(newIndex);
+    }
+  }, [location, destination, options]);
+
   return (
     <Grid container item alignItems="center" spacing={3}>
-      <Grid item>
-        <Button size="large" variant="contained" color="primary">
-          걸어서달까지 {props.no}호
+      <Grid xs={3} item>
+        <Button fullWidth size="large" variant="contained" color="primary">
+          <span style={{ flexGrow: 1 }} />
+          <span>{name}</span>
+          <span style={{ flexGrow: 1 }} />
         </Button>
       </Grid>
-      <Grid item>
+      <Grid xs={3} item>
         <Button
+          fullWidth
           variant="contained"
           color="default"
           size="large"
           startIcon={<LocationOn />}
         >
-          지구 궤도
+          <span style={{ flexGrow: 1 }} />
+          {location}
+          <span style={{ flexGrow: 1 }} />
         </Button>
       </Grid>
-      <Grid item>
-        <Box display="flex">⟶</Box>
+      <Grid xs={1} item>
+        <Box display="flex" justifyContent="center">
+          <ArrowRightAlt width="100%" />
+        </Box>
       </Grid>
-      <Grid item>
-        <ButtonGroup variant="contained" color="default" ref={anchorRef}>
-          <Button
-            variant="contained"
-            size="large"
-            startIcon={<LocationOn />}
-            onClick={handleToggle}
-          >
-            {options[selectedIndex]}
-          </Button>
-          <Button color="default" size="small" onClick={handleToggle}>
-            <ArrowDropDownIcon />
-          </Button>
-        </ButtonGroup>
+      <Grid xs={3} item>
+        <Button
+          fullWidth
+          variant="contained"
+          size="large"
+          startIcon={<LocationOn />}
+          endIcon={<ArrowDropDown />}
+          onClick={handleToggle}
+          ref={anchorRef}
+          disabled={!assembled || location !== destination}
+        >
+          <span style={{ flexGrow: 1 }} />
+          <span>{options[selectedIndex]["destination"]}</span>
+          <span style={{ flexGrow: 1 }} />
+        </Button>
         <Popper
           open={open}
           anchorEl={anchorRef.current}
@@ -83,11 +98,11 @@ export default function ShipOperation(props) {
               <MenuList id="split-button-menu">
                 {options.map((option, index) => (
                   <MenuItem
-                    key={option}
+                    key={option.destination}
                     selected={index === selectedIndex}
                     onClick={event => handleMenuItemClick(event, index)}
                   >
-                    {option}
+                    {option.destination}
                   </MenuItem>
                 ))}
               </MenuList>
@@ -95,10 +110,11 @@ export default function ShipOperation(props) {
           </Paper>
         </Popper>
       </Grid>
-      <Grid item>
-        <Button size="large" variant="contained" color="primary">
-          결정
-        </Button>
+      <Grid xs={2} item>
+        <ConfirmOperation
+          data={props.data}
+          destination={options[selectedIndex]["destination"]}
+        />
       </Grid>
     </Grid>
   );

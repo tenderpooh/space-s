@@ -121,11 +121,8 @@ export default function RankTable() {
                   <TableRow
                     hover
                     onClick={event => handleClick(event, row.name)}
-                    // role="checkbox"
-                    // aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.name}
-                    // selected={isItemSelected}
+                    key={index}
                   >
                     {/* <TableCell padding="checkbox">
                       <Checkbox

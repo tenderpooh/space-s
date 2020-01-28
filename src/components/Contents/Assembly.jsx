@@ -1,7 +1,11 @@
-import React from "react";
-import { GridList, GridListTile } from "@material-ui/core";
+import React, { useContext } from "react";
+import { GridList, GridListTile, Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { DataContext } from "../../backend/DataProvider";
+
 import Spaceship from "./Assembly/Spaceship";
+import AssemblyAsset from "./Assembly/AssemblyAsset";
+import NewSpaceship from "./Assembly/NewSpaceship";
 
 const useStyles = makeStyles(theme => ({
   gridList: {
@@ -13,28 +17,29 @@ const useStyles = makeStyles(theme => ({
 
 export default function Assembly() {
   const classes = useStyles();
+  const { spaceships, user, company } = useContext(DataContext);
   return (
-    <GridList
-      className={classes.gridList}
-      cellHeight="auto"
-      cols={4}
-      spacing={10}
-    >
-      <GridListTile>
-        <Spaceship />
-      </GridListTile>
-      <GridListTile>
-        <Spaceship />
-      </GridListTile>
-      <GridListTile>
-        <Spaceship />
-      </GridListTile>
-      <GridListTile>
-        <Spaceship />
-      </GridListTile>
-      <GridListTile>
-        <Spaceship />
-      </GridListTile>
-    </GridList>
+    <>
+      <Grid container item xs={12} spacing={3}>
+        <AssemblyAsset />
+      </Grid>
+      <GridList
+        className={classes.gridList}
+        cellHeight="auto"
+        cols={4}
+        spacing={10}
+      >
+        {spaceships.map((spaceship, index) => {
+          return (
+            <GridListTile key={index}>
+              <Spaceship data={spaceship} company={company} />
+            </GridListTile>
+          );
+        })}
+        <GridListTile>
+          <NewSpaceship companyId={user.company} />
+        </GridListTile>
+      </GridList>
+    </>
   );
 }

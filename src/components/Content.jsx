@@ -26,7 +26,9 @@ const Content = () => {
           </Box>
           <Divider />
         </Grid>
-        {component}
+        <Grid item xs={12}>
+          {component}
+        </Grid>
       </Grid>
     </div>
   );

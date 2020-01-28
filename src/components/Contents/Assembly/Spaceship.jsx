@@ -13,17 +13,17 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { LocationOn, Build, Add, Remove } from "@material-ui/icons";
 
+import AssemblyConfirm from "./AssemblyConfirm";
+
 const useStyles = makeStyles(theme => ({
   formControl: {
-    minWidth: 120,
     width: "70%",
-    paddingLeft: 20,
-    paddingRight: 20,
-    height: "100%"
+    height: "100%",
+    fontSize: "0.8rem"
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: "center"
+    height: "100%"
   },
   row: {
     marginTop: 10
@@ -34,24 +34,45 @@ const useStyles = makeStyles(theme => ({
   parts: {
     marginLeft: 20
   },
-  selectEmpty: {}
+  selectEmpty: {
+    width: "100%"
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff"
+  }
 }));
 
-export default function Spaceship() {
+export default function Spaceship(props) {
   const classes = useStyles();
-  const [capsule, setCapsule] = React.useState("");
-  const [passenger, setPassenger] = React.useState(0);
-  const [supplies, setSupplies] = React.useState(0);
-  const [junoRocket, setJunoRocket] = React.useState(0);
-  const [atlasRocket, setAtlasRocket] = React.useState(0);
-  const [soyuzRocket, setSoyuzRocket] = React.useState(0);
-  const [saturnRocket, setSaturnRocket] = React.useState(0);
-  const currentSupplies = 10;
-  const currentPassenger = 10;
-  const currentJunoRocket = 10;
-  const currentAtlasRocket = 10;
-  const currentSoyuzRocket = 10;
-  const currentSaturnRocket = 10;
+  const shipInfo = props.data;
+  const [capsule, setCapsule] = React.useState(shipInfo.capsule);
+  const [passenger, setPassenger] = React.useState(shipInfo.passenger);
+  const [supplies, setSupplies] = React.useState(shipInfo.supplies);
+  const [junoRockets, setJunoRockets] = React.useState(shipInfo.junoRockets);
+  const [atlasRockets, setAtlasRockets] = React.useState(shipInfo.atlasRockets);
+  const [soyuzRockets, setSoyuzRockets] = React.useState(shipInfo.soyuzRockets);
+  const [saturnRockets, setSaturnRockets] = React.useState(
+    shipInfo.saturnRockets
+  );
+  const input = {
+    capsule,
+    passenger,
+    supplies,
+    junoRockets,
+    atlasRockets,
+    soyuzRockets,
+    saturnRockets
+  };
+  const [isEarth, setIsEarth] = React.useState(false);
+  const [isAssembled, setIsAssembled] = React.useState(shipInfo.assembled);
+
+  const currentSupplies = props.company.supplies;
+  const currentPassenger = props.company.passenger;
+  const currentJunoRockets = props.company.junoRockets;
+  const currentAtlasRockets = props.company.atlasRockets;
+  const currentSoyuzRockets = props.company.soyuzRockets;
+  const currentSaturnRockets = props.company.saturnRockets;
   const handleChange = event => {
     setCapsule(event.target.value);
   };
@@ -63,38 +84,54 @@ export default function Spaceship() {
       case "supplies":
         setSupplies(Number(supplies) + Number(e.currentTarget.value));
         break;
-      case "junoRocket":
-        setJunoRocket(Number(junoRocket) + Number(e.currentTarget.value));
+      case "junoRockets":
+        setJunoRockets(Number(junoRockets) + Number(e.currentTarget.value));
         break;
-      case "atlasRocket":
-        setAtlasRocket(Number(atlasRocket) + Number(e.currentTarget.value));
+      case "atlasRockets":
+        setAtlasRockets(Number(atlasRockets) + Number(e.currentTarget.value));
         break;
-      case "soyuzRocket":
-        setSoyuzRocket(Number(soyuzRocket) + Number(e.currentTarget.value));
+      case "soyuzRockets":
+        setSoyuzRockets(Number(soyuzRockets) + Number(e.currentTarget.value));
         break;
-      case "saturnRocket":
-        setSaturnRocket(Number(saturnRocket) + Number(e.currentTarget.value));
+      case "saturnRockets":
+        setSaturnRockets(Number(saturnRockets) + Number(e.currentTarget.value));
         break;
       default:
     }
   };
 
+  const inputInit = () => {
+    setJunoRockets(0);
+    setAtlasRockets(0);
+    setSoyuzRockets(0);
+    setSaturnRockets(0);
+    setPassenger(0);
+    setSupplies(0);
+  };
+
+  React.useEffect(() => {
+    shipInfo.location === "지구" && shipInfo.destination === "지구"
+      ? setIsEarth(true)
+      : setIsEarth(false);
+    shipInfo.assembled ? setIsAssembled(true) : setIsAssembled(false);
+  }, [shipInfo]);
+
   return (
     <Paper className={classes.paper}>
-      <Box fontWeight="fontWeightBold">우주선 1</Box>
+      <Box fontWeight="fontWeightBold">{shipInfo.name}</Box>
       <Divider />
       <Grid container>
         <Grid container item>
-          <Box width="30%" display="flex">
+          <Box width="50%" display="flex">
             <LocationOn fontSize="small" className={classes.icon} />
             <Box>현 위치</Box>
           </Box>
-          <Box width="70%" textAlign="center" fontWeight="fontWeightBold">
-            {"지구 궤도"}
+          <Box width="50%" textAlign="center" fontWeight="fontWeightBold">
+            {shipInfo.location}
           </Box>
         </Grid>
         <Grid container item>
-          <Box width="30%" display="flex">
+          <Box width="100%" display="flex">
             <Build fontSize="small" className={classes.icon} />
             <Box>부품 구성</Box>
           </Box>
@@ -107,12 +144,18 @@ export default function Spaceship() {
               <Box width="30%" textAlign="center">
                 캡슐
               </Box>
-              <FormControl className={classes.formControl}>
+              <FormControl
+                className={classes.formControl}
+                disabled={!isEarth || isAssembled}
+              >
                 <Select
                   value={capsule}
                   onChange={handleChange}
                   displayEmpty
                   className={classes.selectEmpty}
+                  style={{
+                    fontSize: "0.8rem"
+                  }}
                 >
                   <MenuItem value="">
                     <em>선택</em>
@@ -128,26 +171,26 @@ export default function Spaceship() {
             <Box fontWeight="fontWeightBold">승객 및 보급품</Box>
             <Divider style={{ width: "100%" }} />
             <Grid container item alignItems="center">
-              <Box width="30%" textAlign="center">
+              <Box width="40%" textAlign="center">
                 승객
               </Box>
-              <Box width="70%">
+              <Box width="60%">
                 <ButtonGroup
                   fullWidth={true}
                   variant="text"
                   size="small"
                   style={{ display: "flex" }}
+                  disabled={!isEarth || isAssembled}
                 >
                   <Button
                     name="passenger"
                     value={-1}
                     onClick={handleNumber}
-                    disa
-                    bled={passenger <= 0}
+                    disabled={passenger <= 0}
                   >
                     <Remove />
                   </Button>
-                  <Button color="primary" disabled>
+                  <Button disabled style={{ color: "black" }}>
                     {passenger}
                   </Button>
                   <Button
@@ -162,15 +205,16 @@ export default function Spaceship() {
               </Box>
             </Grid>
             <Grid container item alignItems="center">
-              <Box width="30%" textAlign="center">
+              <Box width="40%" textAlign="center">
                 보급품
               </Box>
-              <Box width="70%">
+              <Box width="60%">
                 <ButtonGroup
                   fullWidth={true}
                   variant="text"
                   size="small"
                   style={{ display: "flex" }}
+                  disabled={!isEarth || isAssembled}
                 >
                   <Button
                     name="supplies"
@@ -180,7 +224,7 @@ export default function Spaceship() {
                   >
                     <Remove />
                   </Button>
-                  <Button color="primary" disabled>
+                  <Button disabled style={{ color: "black" }}>
                     {supplies}
                   </Button>
                   <Button
@@ -197,34 +241,35 @@ export default function Spaceship() {
           </Grid>
           <Grid container item>
             <Box fontWeight="fontWeightBold">추진 로켓 구성</Box>
-            <Divider style={{ width: "100%" }} />
+            <Divider width="100%" />
             <Grid container alignItems="center">
-              <Box width="30%" textAlign="center">
+              <Box width="40%" textAlign="center">
                 주노 로켓
               </Box>
-              <Box width="70%">
+              <Box width="60%">
                 <ButtonGroup
                   fullWidth={true}
                   variant="text"
                   size="small"
                   style={{ display: "flex" }}
+                  disabled={!isEarth || isAssembled}
                 >
                   <Button
-                    name="junoRocket"
+                    name="junoRockets"
                     value={-1}
                     onClick={handleNumber}
-                    disabled={junoRocket <= 0}
+                    disabled={junoRockets <= 0}
                   >
                     <Remove />
                   </Button>
-                  <Button color="primary" disabled>
-                    {junoRocket}
+                  <Button disabled style={{ color: "black" }}>
+                    {junoRockets}
                   </Button>
                   <Button
-                    name="junoRocket"
+                    name="junoRockets"
                     value={1}
                     onClick={handleNumber}
-                    disabled={junoRocket >= currentJunoRocket}
+                    disabled={junoRockets >= currentJunoRockets}
                   >
                     <Add />
                   </Button>
@@ -232,32 +277,33 @@ export default function Spaceship() {
               </Box>
             </Grid>
             <Grid container alignItems="center">
-              <Box width="30%" textAlign="center">
+              <Box width="40%" textAlign="center">
                 아틀라스 로켓
               </Box>
-              <Box width="70%">
+              <Box width="60%">
                 <ButtonGroup
                   fullWidth={true}
                   variant="text"
                   size="small"
                   style={{ display: "flex" }}
+                  disabled={!isEarth || isAssembled}
                 >
                   <Button
-                    name="atlasRocket"
+                    name="atlasRockets"
                     value={-1}
                     onClick={handleNumber}
-                    disabled={atlasRocket <= 0}
+                    disabled={atlasRockets <= 0}
                   >
                     <Remove />
                   </Button>
-                  <Button color="primary" disabled>
-                    {atlasRocket}
+                  <Button disabled style={{ color: "black" }}>
+                    {atlasRockets}
                   </Button>
                   <Button
-                    name="atlasRocket"
+                    name="atlasRockets"
                     value={1}
                     onClick={handleNumber}
-                    disabled={atlasRocket >= currentAtlasRocket}
+                    disabled={atlasRockets >= currentAtlasRockets}
                   >
                     <Add />
                   </Button>
@@ -265,32 +311,33 @@ export default function Spaceship() {
               </Box>
             </Grid>
             <Grid container alignItems="center">
-              <Box width="30%" textAlign="center">
+              <Box width="40%" textAlign="center">
                 소유즈 로켓
               </Box>
-              <Box width="70%">
+              <Box width="60%">
                 <ButtonGroup
                   fullWidth={true}
                   variant="text"
                   size="small"
                   style={{ display: "flex" }}
+                  disabled={!isEarth || isAssembled}
                 >
                   <Button
-                    name="soyuzRocket"
+                    name="soyuzRockets"
                     value={-1}
                     onClick={handleNumber}
-                    disabled={soyuzRocket <= 0}
+                    disabled={soyuzRockets <= 0}
                   >
                     <Remove />
                   </Button>
-                  <Button color="primary" disabled>
-                    {soyuzRocket}
+                  <Button disabled style={{ color: "black" }}>
+                    {soyuzRockets}
                   </Button>
                   <Button
-                    name="soyuzRocket"
+                    name="soyuzRockets"
                     value={1}
                     onClick={handleNumber}
-                    disabled={soyuzRocket >= currentSoyuzRocket}
+                    disabled={soyuzRockets >= currentSoyuzRockets}
                   >
                     <Add />
                   </Button>
@@ -298,32 +345,33 @@ export default function Spaceship() {
               </Box>
             </Grid>
             <Grid container alignItems="center">
-              <Box width="30%" textAlign="center">
+              <Box width="40%" textAlign="center">
                 새턴 로켓
               </Box>
-              <Box width="70%">
+              <Box width="60%">
                 <ButtonGroup
                   fullWidth={true}
                   variant="text"
                   size="small"
                   style={{ display: "flex" }}
+                  disabled={!isEarth || isAssembled}
                 >
                   <Button
-                    name="saturnRocket"
+                    name="saturnRockets"
                     value={-1}
                     onClick={handleNumber}
-                    disabled={saturnRocket <= 0}
+                    disabled={saturnRockets <= 0}
                   >
                     <Remove />
                   </Button>
-                  <Button color="primary" disabled>
-                    {saturnRocket}
+                  <Button disabled style={{ color: "black" }}>
+                    {saturnRockets}
                   </Button>
                   <Button
-                    name="saturnRocket"
+                    name="saturnRockets"
                     value={1}
                     onClick={handleNumber}
-                    disabled={saturnRocket >= currentSaturnRocket}
+                    disabled={saturnRockets >= currentSaturnRockets}
                   >
                     <Add />
                   </Button>
@@ -332,6 +380,20 @@ export default function Spaceship() {
             </Grid>
           </Grid>
         </Grid>
+        {isEarth ? (
+          <>
+            <Divider width="100%" />
+            <Grid container>
+              <AssemblyConfirm
+                spaceship={shipInfo}
+                input={input}
+                inputInit={inputInit}
+              />
+            </Grid>
+          </>
+        ) : (
+          ""
+        )}
       </Grid>
     </Paper>
   );

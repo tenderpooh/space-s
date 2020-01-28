@@ -88,27 +88,21 @@ export default function SetRocket() {
             승객
           </Box>
           <Box width="70%">
-            <ButtonGroup
-              fullWidth={true}
+            <Button
+              name="passenger"
               variant="text"
-              size="small"
-              style={{ display: "flex" }}
+              value={-1}
+              onClick={handleNumber}
+              disabled={passenger <= 0}
             >
-              <Button
-                name="passenger"
-                value={-1}
-                onClick={handleNumber}
-                disabled={passenger <= 0}
-              >
-                <Remove />
-              </Button>
-              <Button color="primary" disabled style={{ color: "black" }}>
-                {passenger}
-              </Button>
-              <Button name="passenger" value={1} onClick={handleNumber}>
-                <Add />
-              </Button>
-            </ButtonGroup>
+              <Remove />
+            </Button>
+            <Button color="primary" disabled style={{ color: "black" }}>
+              {passenger}
+            </Button>
+            <Button name="passenger" value={1} onClick={handleNumber}>
+              <Add />
+            </Button>
           </Box>
         </Grid>
         <Grid container item alignItems="center">

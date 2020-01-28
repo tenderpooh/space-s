@@ -14,8 +14,9 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { AppContext } from "../context/AppProvider";
+import { DataContext } from "../backend/DataProvider";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
@@ -36,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     })
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(1)
   },
   title: {
     display: "none",
@@ -60,8 +61,8 @@ const useStyles = makeStyles(theme => ({
 
 const Header = () => {
   const classes = useStyles();
-
   const { menuOpened, menuToggle } = useContext(AppContext);
+  const data = useContext(DataContext);
 
   return (
     <AppBar
@@ -75,32 +76,26 @@ const Header = () => {
           edge="start"
           className={classes.menuButton}
           color="inherit"
-          aria-label="open drawer"
           onClick={menuToggle}
         >
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title} variant="h6" noWrap>
-          (주)걸어서달까지
+          {data.company.name}
         </Typography>
         <div className={classes.grow} />
         <div className={classes.sectionDesktop}>
-          <IconButton aria-label="show 4 new mails" color="inherit">
+          <IconButton color="inherit">
             <Badge badgeContent={44} color="secondary">
               <MailIcon />
             </Badge>
           </IconButton>
-          <IconButton aria-label="show 17 new notifications" color="inherit">
+          <IconButton color="inherit">
             <Badge badgeContent={17} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-haspopup="true"
-            color="inherit"
-          >
+          <IconButton edge="end" color="inherit">
             <AccountCircle />
           </IconButton>
         </div>

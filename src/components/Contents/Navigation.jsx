@@ -7,13 +7,17 @@ import SimResult from "./Navigation/SimResult";
 export default function Navigation() {
   return (
     <>
-      <Grid container item xs={5}>
+      <Grid container>
         <SetPath />
-        <SetRocket />
       </Grid>
-      <Grid container item xs={2}></Grid>
-      <Grid container item xs={5}>
-        <SimResult />
+      <Grid container>
+        <Grid container item xs={5}>
+          <SetRocket />
+        </Grid>
+        <Grid container item xs={2}></Grid>
+        <Grid container item xs={5}>
+          <SimResult />
+        </Grid>
       </Grid>
     </>
   );

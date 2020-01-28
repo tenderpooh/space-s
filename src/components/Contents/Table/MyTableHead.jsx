@@ -86,6 +86,6 @@ MyTableHead.propTypes = {
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
-  headCells: PropTypes.object.isRequired,
+  headCells: PropTypes.array.isRequired,
   checkbox: PropTypes.bool.isRequired
 };

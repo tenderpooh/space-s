@@ -1,19 +1,9 @@
 import React from "react";
 import { Grid, Box, Divider } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import CustomerTable from "./Customer/CustomerTable";
 import Packages from "./Customer/Packages";
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary
-  }
-}));
-
 export default function Customer() {
-  const classes = useStyles();
   return (
     <Grid container item xs={12} spacing={5}>
       <Grid item xs={6}>

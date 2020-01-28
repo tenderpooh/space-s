@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import clsx from "clsx";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Drawer,
   List,
@@ -11,7 +11,6 @@ import {
   ListItemText
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 
@@ -34,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: "nowrap"
   },
   drawerOpen: {
-    width: 240,
+    width: 200,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
@@ -62,7 +61,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function SideBar() {
   const classes = useStyles();
-  const theme = useTheme();
   const { menuOpened, menuToggle, content, contentSelect } = useContext(
     AppContext
   );
@@ -83,16 +81,12 @@ export default function SideBar() {
     >
       <div className={classes.toolbar}>
         <IconButton onClick={menuToggle}>
-          {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
-          ) : (
-            <ChevronLeftIcon />
-          )}
+          <ChevronLeftIcon />
         </IconButton>
       </div>
       <Divider />
       <List>
-        {route.map((option, index) => (
+        {route.map(option => (
           <ListItem
             button
             key={option.text}

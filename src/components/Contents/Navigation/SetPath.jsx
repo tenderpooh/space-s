@@ -1,20 +1,8 @@
 import React from "react";
-import {
-  Button,
-  ButtonGroup,
-  Paper,
-  Box,
-  Divider,
-  Grid,
-  MenuItem,
-  ClickAwayListener,
-  Popper,
-  MenuList
-} from "@material-ui/core";
+import { Button, Paper, Box, Divider, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LocationOn, ArrowDropDown } from "@material-ui/icons";
-
-const options = ["도착지", "탄도 비행", "달 접근 비행"];
+import PathButton from "./PathButton";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -27,31 +15,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function SetPath() {
   const classes = useStyles();
-  const anchorRef = React.useRef(null);
+  const [paths, setPaths] = React.useState([]);
+  console.log(paths);
 
-  const [open, setOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(prevOpen => !prevOpen);
-  };
-
-  const handleClose = event => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setOpen(false);
-  };
   return (
     <Paper className={classes.paper}>
       <Box fontWeight="fontWeightBold">항로 설정</Box>
       <Divider style={{ width: "100%", marginTop: 5, marginBottom: 10 }} />
-      <Grid container item alignItems="center" justify="space-between">
+      <Grid container item alignItems="center" spacing={1}>
         <Grid item>
           <Button
             variant="contained"
@@ -62,60 +33,25 @@ export default function SetPath() {
             지구
           </Button>
         </Grid>
-        <Grid item>
-          <Box display="flex">⟶</Box>
-        </Grid>
-        <Grid item>
-          <ButtonGroup variant="contained" color="primary" ref={anchorRef}>
-            <Button
-              size="small"
-              startIcon={<LocationOn />}
-              onClick={handleToggle}
-            >
-              {options[selectedIndex]}
-            </Button>
-            <Button size="small" onClick={handleToggle}>
-              <ArrowDropDown />
-            </Button>
-          </ButtonGroup>
-          <Popper
-            open={open}
-            anchorEl={anchorRef.current}
-            role={undefined}
-            transition
-            disablePortal
-            style={{ zIndex: 1 }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList>
-                  {options.map((option, index) => (
-                    <MenuItem
-                      key={option}
-                      selected={index === selectedIndex}
-                      onClick={event => handleMenuItemClick(event, index)}
-                    >
-                      {option}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Popper>
-        </Grid>
-        <Grid item>
-          <Box display="flex">⟶</Box>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="default"
-            size="small"
-            startIcon={<LocationOn />}
-          >
-            지구
-          </Button>
-        </Grid>
+        <PathButton
+          num={0}
+          destination="지구"
+          paths={paths}
+          setPaths={setPaths}
+        />
+        {paths.map((path, index) => {
+          if (path.destination !== "지구") {
+            return (
+              <PathButton
+                key={index}
+                num={index + 1}
+                destination={path.destination}
+                paths={paths}
+                setPaths={setPaths}
+              />
+            );
+          }
+        })}
       </Grid>
     </Paper>
   );
