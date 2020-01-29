@@ -1,21 +1,32 @@
 import React from "react";
 import { Grid, Paper, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { DataContext } from "../../backend/DataProvider";
+
+import ShipIcon from "./Map/ShipIcon";
+
+import map from "./Map/map.jpg";
 
 const useStyles = makeStyles(theme => ({
   area: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    background: "transparent"
   },
   areaCol: {
     width: "100%",
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap"
+  },
+  container: {
+    backgroundImage: `url(${map})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "100%"
   }
 }));
 
@@ -33,6 +44,10 @@ function useWindowSize() {
 }
 
 const areas = [
+  {
+    name: null,
+    type: null
+  },
   {
     name: "화성",
     type: "land",
@@ -79,6 +94,14 @@ const areas = [
     type: null
   },
   {
+    name: null,
+    type: null
+  },
+  {
+    name: null,
+    type: null
+  },
+  {
     name: "화성 접근 비행",
     type: "view",
     nw: 6,
@@ -108,6 +131,14 @@ const areas = [
     ne: 7,
     w: 6,
     sw: 9
+  },
+  {
+    name: null,
+    type: null
+  },
+  {
+    name: null,
+    type: null
   },
   {
     name: null,
@@ -162,6 +193,26 @@ const areas = [
     type: null
   },
   {
+    name: null,
+    type: null
+  },
+  {
+    name: null,
+    type: null
+  },
+  {
+    name: null,
+    type: null
+  },
+  {
+    name: null,
+    type: null
+  },
+  {
+    name: null,
+    type: null
+  },
+  {
     name: "지구",
     type: "",
     nw: 6,
@@ -178,6 +229,14 @@ const areas = [
     name: "달",
     type: "land",
     w: 3
+  },
+  {
+    name: null,
+    type: null
+  },
+  {
+    name: null,
+    type: null
   }
 ];
 
@@ -187,45 +246,49 @@ export default function Map() {
   const [widthValue, setWidthValue] = React.useState(0);
   const windowWidth = useWindowSize();
 
+  const { spaceships } = React.useContext(DataContext);
+
   React.useEffect(() => {
     setWidthValue(boxEl.current.offsetWidth);
   }, [windowWidth]);
 
   return (
-    <Grid container item xs={12} spacing={3} display="flex">
-      {areas.map((area, index) => {
-        return (
-          <Grid item xs={2} key={index}>
-            {area.name !== null && (
+    <Grid container item xs={12} display="flex" className={classes.container}>
+      <Grid
+        container
+        spacing={3}
+        item
+        style={{
+          position: "relative",
+          top: widthValue / 10
+        }}
+      >
+        {areas.map((area, index) => {
+          return area.name !== null ? (
+            <Grid item xs={2} key={index}>
               <Paper
+                elevation={0}
                 className={classes.area}
                 ref={boxEl}
                 style={{ height: widthValue }}
               >
                 <Box className={classes.areaCol}>
-                  {area.nw !== undefined ? <Box>↖</Box> : <Box />}
-                  {area.n !== undefined ? <Box>↑</Box> : <Box />}
-                  {area.ne !== undefined ? <Box>↗</Box> : <Box />}
-                </Box>
-                <Box className={classes.areaCol}>
-                  {area.w !== undefined ? <Box>←</Box> : <Box />}
-                  <Box>
-                    <Box>{area.name}</Box>
-                    <Box>{area.type}</Box>
-                  </Box>
-                  {area.e !== undefined ? <Box>→</Box> : <Box />}
-                </Box>
-
-                <Box className={classes.areaCol}>
-                  {area.sw !== undefined ? <Box>↙</Box> : <Box />}
-                  {area.s !== undefined ? <Box>↓</Box> : <Box />}
-                  {area.se !== undefined ? <Box>↘</Box> : <Box />}
+                  {spaceships.map((ship, index) => {
+                    if (
+                      ship.location === area.name &&
+                      ship.assembled === true
+                    ) {
+                      return <ShipIcon key={index} shipInfo={ship} />;
+                    }
+                  })}
                 </Box>
               </Paper>
-            )}
-          </Grid>
-        );
-      })}
+            </Grid>
+          ) : (
+            <Grid item xs={1} key={index} />
+          );
+        })}
+      </Grid>
     </Grid>
   );
 }

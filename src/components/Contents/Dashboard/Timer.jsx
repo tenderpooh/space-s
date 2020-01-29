@@ -36,20 +36,28 @@ export default function Timer() {
   }, []);
 
   return (
-    <Paper className={classes.paper} justify="center">
-      <Box
-        fontWeight="fontWeightBold"
-        fontSize="h6.fontSize"
-        textAlign="center"
-      >
-        {game.round} 라운드
-      </Box>
-      <Box
-        fontWeight="fontWeightBold"
-        fontSize="h2.fontSize"
-        textAlign="center"
-      >
-        {remainTime}
+    <Paper
+      className={classes.paper}
+      display="flex"
+      style={{
+        justifyContent: "center"
+      }}
+    >
+      <Box>
+        <Box
+          fontWeight="fontWeightBold"
+          fontSize="h4.fontSize"
+          textAlign="center"
+        >
+          {game.round} 라운드
+        </Box>
+        <Box
+          fontWeight="fontWeightBold"
+          fontSize="h1.fontSize"
+          textAlign="center"
+        >
+          {remainTime}
+        </Box>
       </Box>
     </Paper>
   );

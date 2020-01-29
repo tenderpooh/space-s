@@ -9,6 +9,8 @@ import {
   TableRow
 } from "@material-ui/core";
 
+import { DataContext } from "../../../backend/DataProvider";
+
 import {
   SentimentVerySatisfied,
   SentimentVeryDissatisfied,
@@ -54,6 +56,27 @@ const rows = [
   )
 ];
 
+const face = num => {
+  if (num < 60) {
+    return (
+      <SentimentVeryDissatisfied
+        fontSize="default"
+        style={{ color: red[500] }}
+      />
+    );
+  } else if (num < 100) {
+    return (
+      <SentimentSatisfied fontSize="default" style={{ color: blueGrey[500] }} />
+    );
+  } else {
+    return (
+      <SentimentVerySatisfied
+        fontSize="default"
+        style={{ color: green[500] }}
+      />
+    );
+  }
+};
 const headCells = [
   {
     id: "ship",
@@ -79,6 +102,7 @@ const headCells = [
 export default function CustomerTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { spaceships } = React.useContext(DataContext);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -110,25 +134,22 @@ export default function CustomerTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {spaceships
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
-
-                return (
-                  <TableRow hover tabIndex={-1} key={row.ship}>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.ship}
+                return row.assembled === true ? (
+                  <TableRow hover tabIndex={-1} key={index}>
+                    <TableCell component="th" scope="row" padding="none">
+                      {row.name}
                     </TableCell>
                     <TableCell align="right">{row.customer}명</TableCell>
-                    <TableCell align="right">{row.issue}건</TableCell>
-                    <TableCell align="center">{row.satisfaction}</TableCell>
+                    <TableCell align="right">{row.issues}건</TableCell>
+                    <TableCell align="center">
+                      {face(row.satisfaction)}
+                    </TableCell>
                   </TableRow>
+                ) : (
+                  ""
                 );
               })}
             {emptyRows > 0 && (

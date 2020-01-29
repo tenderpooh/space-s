@@ -38,12 +38,13 @@ export default function NewSpaceship(props) {
         destination: "지구",
         location: "지구",
         name: name,
-        passenger: 0,
+        customer: 0,
+        customerType: "",
         supplies: 0,
-        junoRockets: 0,
         atlasRockets: 0,
         soyuzRockets: 0,
-        saturnRockets: 0,
+        issues: 0,
+        satisfaction: 100,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
     setOpen(false);

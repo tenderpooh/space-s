@@ -1,8 +1,11 @@
 import React from "react";
-import { Grid, Paper, Box } from "@material-ui/core";
+import { Grid, Paper, Box, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { DataContext } from "../../../backend/DataProvider";
 import { Flag } from "@material-ui/icons";
-import { yellow, green } from "@material-ui/core/colors";
+import { yellow, green, blueGrey, red, grey } from "@material-ui/core/colors";
+
+import CustomerPurchase from "./CustomerPurchase";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -11,35 +14,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const packages = [
-  {
-    title: "지구 궤도 항해 패키지",
-    price: 0.1,
-    icon: (
-      <Flag
-        style={{
-          width: 80,
-          height: 80,
-          color: yellow["A400"]
-        }}
-      />
-    )
-  },
-  {
-    title: "달 착륙 패키지",
-    price: 1.0,
-    icon: (
-      <Flag
-        style={{
-          width: 80,
-          height: 80,
-          color: green["A400"]
-        }}
-      />
-    )
-  }
-];
-
 const PackagePaper = props => {
   const classes = useStyles();
   return (
@@ -47,19 +21,104 @@ const PackagePaper = props => {
       <Box display="flex" alignItems="center">
         <Box width="40%">{props.icon}</Box>
         <Box width="60%">
-          <Box fontSize={18} fontWeight="fontWeightLight" textAlign="right">
+          <Box fontSize={"0.8rem"} textAlign="right">
             {props.title}
           </Box>
-          <Box fontSize={32} fontWeight="fontWeightBold" textAlign="right">
+          <Box
+            fontSize={"1.25rem"}
+            fontWeight="fontWeightBold"
+            textAlign="right"
+          >
             인당 {props.price} mil
           </Box>
+          <Box
+            fontSize={"0.75rem"}
+            fontWeight="fontWeightBold"
+            textAlign="right"
+          >
+            현재 {props.customer} 명 대기 중
+          </Box>
         </Box>
+      </Box>
+      <Divider />
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-around"
+        color={grey[500]}
+        marginTop={1}
+      >
+        <CustomerPurchase
+          id={props.id}
+          title={props.title}
+          customer={props.customer}
+        />
       </Box>
     </Paper>
   );
 };
 
 export default function Packages() {
+  const { game } = React.useContext(DataContext);
+  const packages = [
+    {
+      title: "달 관람/착륙",
+      price: game.moonPrice,
+      customer: game.moonCustomer,
+      icon: (
+        <Flag
+          style={{
+            width: 80,
+            height: 80,
+            color: yellow["400"]
+          }}
+        />
+      )
+    },
+    {
+      title: "화성 관람/착륙",
+      price: 0,
+      customer: 0,
+      icon: (
+        <Flag
+          style={{
+            width: 80,
+            height: 80,
+            color: red["400"]
+          }}
+        />
+      )
+    },
+    {
+      title: "목성 관람/착륙",
+      price: 0,
+      customer: 0,
+      icon: (
+        <Flag
+          style={{
+            width: 80,
+            height: 80,
+            color: green["400"]
+          }}
+        />
+      )
+    },
+    {
+      title: "소행성 관람/착륙",
+      price: 0,
+      customer: 0,
+      icon: (
+        <Flag
+          style={{
+            width: 80,
+            height: 80,
+            color: blueGrey["400"]
+          }}
+        />
+      )
+    }
+  ];
+
   return (
     <Grid container item xs={12} spacing={3}>
       {packages.map((pack, index) => (
@@ -68,6 +127,7 @@ export default function Packages() {
             icon={pack.icon}
             title={pack.title}
             price={pack.price}
+            customer={pack.customer}
           />
         </Grid>
       ))}

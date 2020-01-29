@@ -1,13 +1,8 @@
 import React from "react";
-import MapIcon from "@material-ui/icons/Map";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import {
-  Build,
-  FlightTakeoff,
-  MonetizationOn,
-  Explore,
-  Call
-} from "@material-ui/icons";
+import { Build, MonetizationOn, Explore } from "@material-ui/icons";
+
+import SidebarIcons from "./SidebarIcons";
 
 import Map from "../components/Contents/Map";
 import Dashboard from "../components/Contents/Dashboard";
@@ -20,7 +15,7 @@ import Customer from "../components/Contents/Customer";
 const route = [
   {
     text: "지도",
-    icon: <MapIcon />,
+    icon: <SidebarIcons name="map" size="24" color="white" />,
     component: <Map />
   },
   {
@@ -35,7 +30,7 @@ const route = [
   },
   {
     text: "우주선 운행",
-    icon: <FlightTakeoff />,
+    icon: <SidebarIcons name="operation" size="24" color="white" />,
     component: <Operation />
   },
   {
@@ -50,7 +45,7 @@ const route = [
   },
   {
     text: "고객 서비스",
-    icon: <Call />,
+    icon: <SidebarIcons name="customer" size="24" color="white" />,
     component: <Customer />
   }
 ];

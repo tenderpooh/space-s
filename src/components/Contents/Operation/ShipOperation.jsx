@@ -41,6 +41,8 @@ export default function ShipOperation(props) {
     if (location && location !== destination) {
       const newIndex = options.findIndex(x => x.destination === destination);
       setSelectedIndex(newIndex);
+    } else {
+      setSelectedIndex(0);
     }
   }, [location, destination, options]);
 

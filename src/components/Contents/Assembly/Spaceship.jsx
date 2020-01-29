@@ -17,7 +17,7 @@ import AssemblyConfirm from "./AssemblyConfirm";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    width: "70%",
+    width: "60%",
     height: "100%",
     fontSize: "0.8rem"
   },
@@ -47,45 +47,46 @@ export default function Spaceship(props) {
   const classes = useStyles();
   const shipInfo = props.data;
   const [capsule, setCapsule] = React.useState(shipInfo.capsule);
-  const [passenger, setPassenger] = React.useState(shipInfo.passenger);
+  const [customerType, setCustomerType] = React.useState(shipInfo.customerType);
+  const [customer, setCustomer] = React.useState(shipInfo.customer);
   const [supplies, setSupplies] = React.useState(shipInfo.supplies);
-  const [junoRockets, setJunoRockets] = React.useState(shipInfo.junoRockets);
   const [atlasRockets, setAtlasRockets] = React.useState(shipInfo.atlasRockets);
   const [soyuzRockets, setSoyuzRockets] = React.useState(shipInfo.soyuzRockets);
-  const [saturnRockets, setSaturnRockets] = React.useState(
-    shipInfo.saturnRockets
-  );
   const input = {
     capsule,
-    passenger,
     supplies,
-    junoRockets,
     atlasRockets,
     soyuzRockets,
-    saturnRockets
+    customerType,
+    customer
   };
   const [isEarth, setIsEarth] = React.useState(false);
   const [isAssembled, setIsAssembled] = React.useState(shipInfo.assembled);
 
   const currentSupplies = props.company.supplies;
-  const currentPassenger = props.company.passenger;
-  const currentJunoRockets = props.company.junoRockets;
-  const currentAtlasRockets = props.company.atlasRockets;
-  const currentSoyuzRockets = props.company.soyuzRockets;
-  const currentSaturnRockets = props.company.saturnRockets;
-  const handleChange = event => {
-    setCapsule(event.target.value);
+  const currentCustomer = props.company.customer[customerType];
+  const currentAtlasRockets = props.company.rockets.atlas;
+  const currentSoyuzRockets = props.company.rockets.soyuz;
+  const currentCapsuleLv1 = props.company.capsules.capsuleLv1;
+  const currentCapsuleLv2 = props.company.capsules.capsuleLv2;
+  const currentCapsuleLv3 = props.company.capsules.capsuleLv3;
+  const handleCapsuleChange = e => {
+    console.log("capsule changed");
+    setCapsule(e.target.value);
   };
+
+  const handleCustomerTypeChange = e => {
+    setCustomerType(e.target.value);
+    setCustomer(0);
+  };
+
   const handleNumber = e => {
     switch (e.currentTarget.getAttribute("name")) {
-      case "passenger":
-        setPassenger(Number(passenger) + Number(e.currentTarget.value));
+      case "customer":
+        setCustomer(Number(customer) + Number(e.currentTarget.value));
         break;
       case "supplies":
         setSupplies(Number(supplies) + Number(e.currentTarget.value));
-        break;
-      case "junoRockets":
-        setJunoRockets(Number(junoRockets) + Number(e.currentTarget.value));
         break;
       case "atlasRockets":
         setAtlasRockets(Number(atlasRockets) + Number(e.currentTarget.value));
@@ -93,19 +94,16 @@ export default function Spaceship(props) {
       case "soyuzRockets":
         setSoyuzRockets(Number(soyuzRockets) + Number(e.currentTarget.value));
         break;
-      case "saturnRockets":
-        setSaturnRockets(Number(saturnRockets) + Number(e.currentTarget.value));
-        break;
       default:
     }
   };
 
   const inputInit = () => {
-    setJunoRockets(0);
+    setCapsule("");
     setAtlasRockets(0);
     setSoyuzRockets(0);
-    setSaturnRockets(0);
-    setPassenger(0);
+    setCustomer(0);
+    setCustomerType("");
     setSupplies(0);
   };
 
@@ -141,7 +139,7 @@ export default function Spaceship(props) {
             <Box fontWeight="fontWeightBold">승차 캡슐</Box>
             <Divider style={{ width: "100%" }} />
             <Grid container alignItems="center">
-              <Box width="30%" textAlign="center">
+              <Box width="40%" textAlign="center">
                 캡슐
               </Box>
               <FormControl
@@ -150,7 +148,7 @@ export default function Spaceship(props) {
               >
                 <Select
                   value={capsule}
-                  onChange={handleChange}
+                  onChange={handleCapsuleChange}
                   displayEmpty
                   className={classes.selectEmpty}
                   style={{
@@ -160,9 +158,24 @@ export default function Spaceship(props) {
                   <MenuItem value="">
                     <em>선택</em>
                   </MenuItem>
-                  <MenuItem value={"capsuleLV.1"}>10인승 캡슐</MenuItem>
-                  <MenuItem value={"capsuleLV.2"}>50인승 캡슐</MenuItem>
-                  <MenuItem value={"capsuleLV.3"}>100인승 캡슐</MenuItem>
+                  <MenuItem
+                    value={"capsuleLv1"}
+                    disabled={currentCapsuleLv1 <= 0}
+                  >
+                    10인승 캡슐
+                  </MenuItem>
+                  <MenuItem
+                    value={"capsuleLv2"}
+                    disabled={currentCapsuleLv2 <= 0}
+                  >
+                    20인승 캡슐
+                  </MenuItem>
+                  <MenuItem
+                    value={"capsuleLv3"}
+                    disabled={currentCapsuleLv3 <= 0}
+                  >
+                    50인승 캡슐
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -171,33 +184,69 @@ export default function Spaceship(props) {
             <Box fontWeight="fontWeightBold">승객 및 보급품</Box>
             <Divider style={{ width: "100%" }} />
             <Grid container item alignItems="center">
+              <Grid container alignItems="center">
+                <Box width="40%" textAlign="center">
+                  행선지
+                </Box>
+                <FormControl
+                  className={classes.formControl}
+                  disabled={!isEarth || isAssembled}
+                >
+                  <Select
+                    name="customerType"
+                    value={customerType}
+                    onChange={handleCustomerTypeChange}
+                    displayEmpty
+                    className={classes.selectEmpty}
+                    style={{
+                      fontSize: "0.8rem"
+                    }}
+                  >
+                    <MenuItem value="">
+                      <em>선택</em>
+                    </MenuItem>
+                    <MenuItem value={"moon"}>달</MenuItem>
+                    <MenuItem value={"mars"}>화성</MenuItem>
+                    <MenuItem value={"jupiter"}>목성</MenuItem>
+                    <MenuItem value={"etc"}>기타</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
               <Box width="40%" textAlign="center">
                 승객
               </Box>
               <Box width="60%">
                 <ButtonGroup
-                  fullWidth={true}
+                  fullWidth
                   variant="text"
                   size="small"
                   style={{ display: "flex" }}
-                  disabled={!isEarth || isAssembled}
+                  disabled={
+                    !isEarth ||
+                    isAssembled ||
+                    customerType === "" ||
+                    capsule === "" ||
+                    (capsule === "capsuleLv1" && customer >= 10) ||
+                    (capsule === "capsuleLv2" && customer >= 20) ||
+                    (capsule === "capsuleLv3" && customer >= 50)
+                  }
                 >
                   <Button
-                    name="passenger"
-                    value={-1}
+                    name="customer"
+                    value={-10}
                     onClick={handleNumber}
-                    disabled={passenger <= 0}
+                    disabled={customer <= 0}
                   >
                     <Remove />
                   </Button>
                   <Button disabled style={{ color: "black" }}>
-                    {passenger}
+                    {customer}
                   </Button>
                   <Button
-                    name="passenger"
-                    value={1}
+                    name="customer"
+                    value={10}
                     onClick={handleNumber}
-                    disabled={passenger >= currentPassenger}
+                    disabled={customer >= currentCustomer}
                   >
                     <Add />
                   </Button>
@@ -242,40 +291,6 @@ export default function Spaceship(props) {
           <Grid container item>
             <Box fontWeight="fontWeightBold">추진 로켓 구성</Box>
             <Divider width="100%" />
-            <Grid container alignItems="center">
-              <Box width="40%" textAlign="center">
-                주노 로켓
-              </Box>
-              <Box width="60%">
-                <ButtonGroup
-                  fullWidth={true}
-                  variant="text"
-                  size="small"
-                  style={{ display: "flex" }}
-                  disabled={!isEarth || isAssembled}
-                >
-                  <Button
-                    name="junoRockets"
-                    value={-1}
-                    onClick={handleNumber}
-                    disabled={junoRockets <= 0}
-                  >
-                    <Remove />
-                  </Button>
-                  <Button disabled style={{ color: "black" }}>
-                    {junoRockets}
-                  </Button>
-                  <Button
-                    name="junoRockets"
-                    value={1}
-                    onClick={handleNumber}
-                    disabled={junoRockets >= currentJunoRockets}
-                  >
-                    <Add />
-                  </Button>
-                </ButtonGroup>
-              </Box>
-            </Grid>
             <Grid container alignItems="center">
               <Box width="40%" textAlign="center">
                 아틀라스 로켓
@@ -344,55 +359,27 @@ export default function Spaceship(props) {
                 </ButtonGroup>
               </Box>
             </Grid>
-            <Grid container alignItems="center">
-              <Box width="40%" textAlign="center">
-                새턴 로켓
-              </Box>
-              <Box width="60%">
-                <ButtonGroup
-                  fullWidth={true}
-                  variant="text"
-                  size="small"
-                  style={{ display: "flex" }}
-                  disabled={!isEarth || isAssembled}
-                >
-                  <Button
-                    name="saturnRockets"
-                    value={-1}
-                    onClick={handleNumber}
-                    disabled={saturnRockets <= 0}
-                  >
-                    <Remove />
-                  </Button>
-                  <Button disabled style={{ color: "black" }}>
-                    {saturnRockets}
-                  </Button>
-                  <Button
-                    name="saturnRockets"
-                    value={1}
-                    onClick={handleNumber}
-                    disabled={saturnRockets >= currentSaturnRockets}
-                  >
-                    <Add />
-                  </Button>
-                </ButtonGroup>
-              </Box>
-            </Grid>
           </Grid>
         </Grid>
+        <Divider width="100%" />
         {isEarth ? (
-          <>
-            <Divider width="100%" />
-            <Grid container>
-              <AssemblyConfirm
-                spaceship={shipInfo}
-                input={input}
-                inputInit={inputInit}
-              />
-            </Grid>
-          </>
+          <Grid container>
+            <AssemblyConfirm
+              spaceship={shipInfo}
+              input={input}
+              inputInit={inputInit}
+            />
+          </Grid>
         ) : (
-          ""
+          <Button
+            variant="contained"
+            size="small"
+            disabled
+            fullWidth
+            style={{ marginTop: "1rem" }}
+          >
+            운행 중
+          </Button>
         )}
       </Grid>
     </Paper>

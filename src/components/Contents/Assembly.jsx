@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GridList, GridListTile, Grid, Button } from "@material-ui/core";
+import { GridList, GridListTile, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { DataContext } from "../../backend/DataProvider";
 
@@ -26,7 +26,7 @@ export default function Assembly() {
       <GridList
         className={classes.gridList}
         cellHeight="auto"
-        cols={4}
+        cols={3.5}
         spacing={10}
       >
         {spaceships.map((spaceship, index) => {

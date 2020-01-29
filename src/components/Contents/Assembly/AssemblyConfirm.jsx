@@ -14,12 +14,12 @@ export default function AssemblyConfirm(props) {
     shipId,
     assembled,
     company,
-    junoRockets,
     atlasRockets,
     soyuzRockets,
-    saturnRockets,
-    passenger,
-    supplies
+    customer,
+    customerType,
+    supplies,
+    capsule
   } = props.spaceship;
   const { inputInit } = props;
   const [open, setOpen] = React.useState(false);
@@ -39,12 +39,37 @@ export default function AssemblyConfirm(props) {
       .collection("Companies")
       .doc(company)
       .update({
-        junoRockets: firebase.firestore.FieldValue.increment(junoRockets),
-        atlasRockets: firebase.firestore.FieldValue.increment(atlasRockets),
-        soyuzRockets: firebase.firestore.FieldValue.increment(soyuzRockets),
-        saturnRockets: firebase.firestore.FieldValue.increment(saturnRockets),
-        passenger: firebase.firestore.FieldValue.increment(passenger),
-        supplies: firebase.firestore.FieldValue.increment(supplies)
+        "rockets.atlas": firebase.firestore.FieldValue.increment(atlasRockets),
+        "rockets.soyuz": firebase.firestore.FieldValue.increment(soyuzRockets),
+        "customer.mars":
+          customerType === "mars"
+            ? firebase.firestore.FieldValue.increment(customer)
+            : firebase.firestore.FieldValue.increment(0),
+        "customer.jupiter":
+          customerType === "jupiter"
+            ? firebase.firestore.FieldValue.increment(customer)
+            : firebase.firestore.FieldValue.increment(0),
+        "customer.moon":
+          customerType === "moon"
+            ? firebase.firestore.FieldValue.increment(customer)
+            : firebase.firestore.FieldValue.increment(0),
+        "customer.etc":
+          customerType === "etc"
+            ? firebase.firestore.FieldValue.increment(customer)
+            : firebase.firestore.FieldValue.increment(0),
+        supplies: firebase.firestore.FieldValue.increment(supplies),
+        "capsules.capsuleLv1":
+          capsule === "capsuleLv1"
+            ? firebase.firestore.FieldValue.increment(1)
+            : firebase.firestore.FieldValue.increment(0),
+        "capsules.capsuleLv2":
+          capsule === "capsuleLv2"
+            ? firebase.firestore.FieldValue.increment(1)
+            : firebase.firestore.FieldValue.increment(0),
+        "capsules.capsuleLv3":
+          capsule === "capsuleLv3"
+            ? firebase.firestore.FieldValue.increment(1)
+            : firebase.firestore.FieldValue.increment(0)
       });
     firebase
       .firestore()
@@ -55,38 +80,59 @@ export default function AssemblyConfirm(props) {
         capsule: "",
         destination: "지구",
         location: "지구",
-        passenger: 0,
+        customer: 0,
+        customerType: "",
         supplies: 0,
-        junoRockets: 0,
         atlasRockets: 0,
-        soyuzRockets: 0,
-        saturnRockets: 0
+        soyuzRockets: 0
       });
     inputInit();
   };
 
   const assemble = () => {
+    console.log(props.input);
     firebase
       .firestore()
       .collection("Companies")
       .doc(company)
       .update({
-        junoRockets: firebase.firestore.FieldValue.increment(
-          -props.input.junoRockets
-        ),
-        atlasRockets: firebase.firestore.FieldValue.increment(
+        "rockets.atlas": firebase.firestore.FieldValue.increment(
           -props.input.atlasRockets
         ),
-        soyuzRockets: firebase.firestore.FieldValue.increment(
+        "rockets.soyuz": firebase.firestore.FieldValue.increment(
           -props.input.soyuzRockets
         ),
-        saturnRockets: firebase.firestore.FieldValue.increment(
-          -props.input.saturnRockets
+        "customer.mars":
+          props.input.customerType === "mars"
+            ? firebase.firestore.FieldValue.increment(-props.input.customer)
+            : firebase.firestore.FieldValue.increment(0),
+        "customer.jupiter":
+          props.input.customerType === "jupiter"
+            ? firebase.firestore.FieldValue.increment(-props.input.customer)
+            : firebase.firestore.FieldValue.increment(0),
+        "customer.moon":
+          props.input.customerType === "moon"
+            ? firebase.firestore.FieldValue.increment(-props.input.customer)
+            : firebase.firestore.FieldValue.increment(0),
+        "customer.etc":
+          props.input.customerType === "etc"
+            ? firebase.firestore.FieldValue.increment(-props.input.customer)
+            : firebase.firestore.FieldValue.increment(0),
+        supplies: firebase.firestore.FieldValue.increment(
+          -props.input.supplies
         ),
-        passenger: firebase.firestore.FieldValue.increment(
-          -props.input.passenger
-        ),
-        supplies: firebase.firestore.FieldValue.increment(-props.input.supplies)
+        "capsules.capsuleLv1":
+          props.input.capsule === "capsuleLv1"
+            ? firebase.firestore.FieldValue.increment(-1)
+            : firebase.firestore.FieldValue.increment(0),
+        "capsules.capsuleLv2":
+          props.input.capsule === "capsuleLv2"
+            ? firebase.firestore.FieldValue.increment(-1)
+            : firebase.firestore.FieldValue.increment(0),
+        "capsules.capsuleLv3":
+          props.input.capsule === "capsuleLv3"
+            ? firebase.firestore.FieldValue.increment(-1)
+            : firebase.firestore.FieldValue.increment(0)
       });
     firebase
       .firestore()
@@ -115,6 +161,7 @@ export default function AssemblyConfirm(props) {
         color={isAssembled ? "secondary" : "primary"}
         fullWidth
         size="small"
+        style={{ marginTop: "1rem" }}
       >
         {isAssembled ? "우주선 분해" : "우주선 조립"}
       </Button>

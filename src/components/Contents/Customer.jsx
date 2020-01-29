@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, Box, Divider } from "@material-ui/core";
 import CustomerTable from "./Customer/CustomerTable";
 import Packages from "./Customer/Packages";
+import Trend from "./Customer/Trend";
 
 export default function Customer() {
   return (
@@ -11,6 +12,7 @@ export default function Customer() {
           우주 여행 트렌드
         </Box>
         <Divider />
+        <Trend />
       </Grid>
       <Grid item xs={6}>
         <Box fontSize={20} fontWeight={500} marginLeft={1}>

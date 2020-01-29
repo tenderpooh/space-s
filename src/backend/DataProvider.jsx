@@ -66,16 +66,29 @@ const DataProvider = ({ children }) => {
       member: [],
       name: "Loading...",
       profit: 0,
-      junoRockets: 0,
-      atlasRockets: 0,
-      soyuzRockets: 0,
-      saturnRockets: 0,
+      capsules: {
+        capsuleLv1: 0,
+        capsuleLv2: 0,
+        capsuleLv3: 0
+      },
+      rockets: {
+        atlas: 0,
+        soyuz: 0
+      },
+      customer: {
+        mars: 0,
+        jupiter: 0,
+        etc: 0,
+        moon: 0
+      },
       passenger: 0,
       supplies: 0
     },
     game: {
       round: 0,
-      time: { seconds: 0 }
+      time: { seconds: 0 },
+      moonCustomer: 0,
+      moonPrice: 0
     },
     spaceships: []
   };

@@ -1,5 +1,12 @@
-import React from "react";
-import { Grid, Paper, Box, Divider, Button } from "@material-ui/core";
+import React, { useContext } from "react";
+import {
+  Grid,
+  Paper,
+  Box,
+  Divider,
+  Button,
+  Typography
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   MonetizationOn,
@@ -10,7 +17,10 @@ import {
   AirlineSeatReclineNormal,
   Shop
 } from "@material-ui/icons";
+import { DataContext } from "../../backend/DataProvider";
 import { yellow, grey, green, red, deepPurple } from "@material-ui/core/colors";
+
+import AssetPurchase from "./Asset/AssetPurchase";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -80,22 +90,9 @@ const funds = [
 
 const assets = [
   {
-    title: "주노 로켓 - 1 mil $",
-    amount: 1,
-    scale: "기 보유",
-    icon: (
-      <Flight
-        style={{
-          width: 50,
-          height: 50,
-          color: "black"
-        }}
-      />
-    )
-  },
-  {
-    title: "아틀라스 로켓 - 5 mil $",
-    amount: 10,
+    id: ["rockets", "atlas"],
+    title: "아틀라스 로켓",
+    price: 5,
     scale: "기 보유",
     icon: (
       <Flight
@@ -108,7 +105,9 @@ const assets = [
     )
   },
   {
-    title: "소유즈 로켓 - 10 mil $",
+    id: ["rockets", "soyuz"],
+    title: "소유즈 로켓",
+    price: 8,
     amount: 2,
     scale: "기 보유",
     icon: (
@@ -122,21 +121,9 @@ const assets = [
     )
   },
   {
-    title: "새턴 로켓 - 20 mil $",
-    amount: 3,
-    scale: "기 보유",
-    icon: (
-      <Flight
-        style={{
-          width: 50,
-          height: 50,
-          color: red[400]
-        }}
-      />
-    )
-  },
-  {
-    title: "10인승 캡슐 - 1 mil $",
+    id: ["capsules", "capsuleLv1"],
+    title: "10인승 캡슐",
+    price: 5,
     amount: 3,
     scale: "기 보유",
     icon: (
@@ -150,8 +137,9 @@ const assets = [
     )
   },
   {
-    title: "20인승 캡슐- 5 mil $",
-    amount: 2,
+    id: ["capsules", "capsuleLv2"],
+    title: "20인승 캡슐",
+    price: 20,
     scale: "기 보유",
     icon: (
       <AirlineSeatReclineNormal
@@ -164,8 +152,9 @@ const assets = [
     )
   },
   {
-    title: "50인승 캡슐- 10 mil $",
-    amount: 0,
+    id: ["capsules", "capsuleLv3"],
+    title: "50인승 캡슐",
+    price: 60,
     scale: "기 보유",
     icon: (
       <AirlineSeatReclineNormal
@@ -178,8 +167,9 @@ const assets = [
     )
   },
   {
-    title: "보급품 - 1 mil $",
-    amount: 10,
+    id: ["supplies"],
+    title: "보급품",
+    price: 1,
     scale: "세트 보유",
     icon: (
       <Shop
@@ -200,11 +190,16 @@ const AssetPaper = props => {
       <Box display="flex" alignItems="center">
         <Box width="40%">{props.icon}</Box>
         <Box width="60%">
-          <Box fontSize={18} fontWeight="fontWeightLight" textAlign="right">
+          <Box fontSize="0.75rem" fontWeight="400" textAlign="right">
             {props.title}
+            {props.price ? (
+              <span style={{ fontSize: "0.25rem" }}>($ {props.price} mil)</span>
+            ) : (
+              ""
+            )}
           </Box>
           <Box
-            fontSize={24}
+            fontSize="1.5rem"
             fontWeight="fontWeightBold"
             textAlign="right"
             color={props.amount > 0 ? "black" : red[500]}
@@ -223,20 +218,18 @@ const AssetPaper = props => {
             color={grey[500]}
             marginTop={1}
           >
-            <Button
-              variant="outlined"
-              fullWidth
-              style={{ marginLeft: 20, marginRight: 20 }}
-            >
-              구매
-            </Button>
-            <Button
-              variant="outlined"
-              fullWidth
-              style={{ marginLeft: 20, marginRight: 20 }}
-            >
-              매각
-            </Button>
+            <AssetPurchase
+              id={props.id}
+              title={props.title}
+              price={props.price}
+              buy={true}
+            />
+            <AssetPurchase
+              id={props.id}
+              title={props.title}
+              price={props.price}
+              buy={false}
+            />
           </Box>
         </>
       ) : (
@@ -247,6 +240,7 @@ const AssetPaper = props => {
 };
 
 export default function Asset() {
+  const { company } = useContext(DataContext);
   return (
     <Grid container item xs={12} spacing={3}>
       <Grid item xs={12}>
@@ -260,7 +254,7 @@ export default function Asset() {
           <AssetPaper
             icon={fund.icon}
             title={fund.title}
-            amount={fund.amount}
+            amount={fund.title === "보유 자금" ? company.fund : fund.amount}
             scale={fund.scale}
           />
         </Grid>
@@ -274,9 +268,15 @@ export default function Asset() {
       {assets.map((asset, index) => (
         <Grid key={index} item xs={3}>
           <AssetPaper
+            id={asset.id}
             icon={asset.icon}
             title={asset.title}
-            amount={asset.amount}
+            price={asset.price}
+            amount={
+              asset.id.length === 2
+                ? company[asset.id[0]][asset.id[1]]
+                : company[asset.id[0]]
+            }
             scale={asset.scale}
             purchase={true}
           />

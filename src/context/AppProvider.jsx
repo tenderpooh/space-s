@@ -37,7 +37,7 @@ const AppProvider = ({ children }) => {
 
   const initialState = {
     menuOpened: false,
-    content: "항로 시뮬레이션",
+    content: "고객 서비스",
     user: null,
     isLogined: false,
     menuToggle,

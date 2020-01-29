@@ -11,11 +11,10 @@ import {
   ListItemText
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { AppContext } from "../context/AppProvider";
 import route from "../route/Route";
+import NextRound from "../admin/NextRound";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -102,14 +101,7 @@ export default function SideBar() {
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <NextRound />
       </List>
     </Drawer>
   );
