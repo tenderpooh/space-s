@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Typography, Popover } from "@material-ui/core";
-import ShipSvg from "./ShipSvg";
+import SpaceshipIcon from "./SpaceshipIcon.svg";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { yellow } from "@material-ui/core/colors";
@@ -29,9 +29,14 @@ export default function ShipIcon(props) {
 
   return (
     <>
-      <Typography onClick={handleClick}>
-        <ShipSvg size={"2rem"} color={yellow[400]} />
-      </Typography>
+      <img
+        onClick={handleClick}
+        src={SpaceshipIcon}
+        style={{
+          width: "3rem",
+          height: "3rem"
+        }}
+      />
       <Popover
         id={id}
         open={open}
@@ -47,7 +52,7 @@ export default function ShipIcon(props) {
         }}
       >
         <Typography className={classes.typography}>
-          {props.shipInfo.name}
+          <b>{props.shipInfo.name}</b>
         </Typography>
       </Popover>
     </>

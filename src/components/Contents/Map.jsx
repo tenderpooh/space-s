@@ -102,7 +102,7 @@ const areas = [
     type: null
   },
   {
-    name: "화성 접근 비행",
+    name: "데이모스",
     type: "view",
     nw: 6,
     n: 2,
@@ -113,7 +113,7 @@ const areas = [
     se: 8
   },
   {
-    name: "데이모스",
+    name: "우주정거장",
     type: "view",
     nw: 6,
     n: 3,

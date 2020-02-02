@@ -1,24 +1,20 @@
 import React, { useContext } from "react";
-import {
-  Grid,
-  Paper,
-  Box,
-  Divider,
-  Button,
-  Typography
-} from "@material-ui/core";
+import { Grid, Paper, Box, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  MonetizationOn,
-  AccountBalanceWallet,
-  TrendingUp,
-  Flight,
-  IndeterminateCheckBox,
-  AirlineSeatReclineNormal,
-  Shop
-} from "@material-ui/icons";
+
 import { DataContext } from "../../backend/DataProvider";
-import { yellow, grey, green, red, deepPurple } from "@material-ui/core/colors";
+import { grey, red } from "@material-ui/core/colors";
+import soyuzIcon from "../Images/soyuzIcon.svg";
+import atlasIcon from "../Images/atlasIcon.svg";
+import suppliesIcon from "../Images/suppliesIcon.svg";
+import capsuleLv1Icon from "../Images/capsuleLv1Icon.svg";
+import capsuleLv2Icon from "../Images/capsuleLv2Icon.svg";
+import capsuleLv3Icon from "../Images/capsuleLv3Icon.svg";
+
+import fundIcon from "../Images/fundIcon.svg";
+import brandIcon from "../Images/brandIcon.svg";
+import profitIcon from "../Images/profitIcon.svg";
+import riskIcon from "../Images/riskIcon.svg";
 
 import AssetPurchase from "./Asset/AssetPurchase";
 
@@ -34,57 +30,25 @@ const funds = [
     title: "분기 고정 수입",
     amount: 20,
     scale: "mil $",
-    icon: (
-      <MonetizationOn
-        style={{
-          width: 50,
-          height: 50,
-          color: yellow["A400"]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={profitIcon} />
   },
   {
     title: "보유 자금",
     amount: 105,
     scale: "mil $",
-    icon: (
-      <AccountBalanceWallet
-        style={{
-          width: 50,
-          height: 50,
-          color: green[600]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={fundIcon} />
   },
   {
     title: "리스크 비용",
     amount: -31,
     scale: "mil $",
-    icon: (
-      <IndeterminateCheckBox
-        style={{
-          width: 50,
-          height: 50,
-          color: red[500]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={riskIcon} />
   },
   {
     title: "브랜드 가치",
     amount: 1,
     scale: "위",
-    icon: (
-      <TrendingUp
-        style={{
-          width: 50,
-          height: 50,
-          color: deepPurple[500]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={brandIcon} />
   }
 ];
 
@@ -94,15 +58,7 @@ const assets = [
     title: "아틀라스 로켓",
     price: 5,
     scale: "기 보유",
-    icon: (
-      <Flight
-        style={{
-          width: 50,
-          height: 50,
-          color: green[400]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={atlasIcon} />
   },
   {
     id: ["rockets", "soyuz"],
@@ -110,15 +66,7 @@ const assets = [
     price: 8,
     amount: 2,
     scale: "기 보유",
-    icon: (
-      <Flight
-        style={{
-          width: 50,
-          height: 50,
-          color: yellow[600]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={soyuzIcon} />
   },
   {
     id: ["capsules", "capsuleLv1"],
@@ -126,60 +74,28 @@ const assets = [
     price: 5,
     amount: 3,
     scale: "기 보유",
-    icon: (
-      <AirlineSeatReclineNormal
-        style={{
-          width: 50,
-          height: 50,
-          color: grey[700]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={capsuleLv1Icon} />
   },
   {
     id: ["capsules", "capsuleLv2"],
     title: "20인승 캡슐",
     price: 20,
     scale: "기 보유",
-    icon: (
-      <AirlineSeatReclineNormal
-        style={{
-          width: 50,
-          height: 50,
-          color: green[400]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={capsuleLv2Icon} />
   },
   {
     id: ["capsules", "capsuleLv3"],
     title: "50인승 캡슐",
     price: 60,
     scale: "기 보유",
-    icon: (
-      <AirlineSeatReclineNormal
-        style={{
-          width: 50,
-          height: 50,
-          color: red[400]
-        }}
-      />
-    )
+    icon: <img alt="icon" src={capsuleLv3Icon} />
   },
   {
     id: ["supplies"],
     title: "보급품",
     price: 1,
     scale: "세트 보유",
-    icon: (
-      <Shop
-        style={{
-          width: 50,
-          height: 50,
-          color: "black"
-        }}
-      />
-    )
+    icon: <img alt="icon" src={suppliesIcon} />
   }
 ];
 
@@ -202,7 +118,7 @@ const AssetPaper = props => {
             fontSize="1.5rem"
             fontWeight="fontWeightBold"
             textAlign="right"
-            color={props.amount > 0 ? "black" : red[500]}
+            color={props.amount > 0 ? "white" : red[500]}
           >
             {props.amount} {props.scale}
           </Box>

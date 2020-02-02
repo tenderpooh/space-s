@@ -61,7 +61,7 @@ export default function PathButton(props) {
       <Grid item>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           size="small"
           ref={anchorRef}
           startIcon={<LocationOn />}

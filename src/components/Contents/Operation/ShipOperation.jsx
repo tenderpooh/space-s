@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { destinations } from "../../../variables/Destinations";
 import ConfirmOperation from "./ConfirmOperation";
+import { cancelSound, confirmSound, dropdownSound } from "../../../sound/Sound";
 
 import { LocationOn, ArrowDropDown, ArrowRightAlt } from "@material-ui/icons";
 
@@ -20,14 +21,16 @@ export default function ShipOperation(props) {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const { name, location, assembled, destination } = props.data;
   const options = destinations[location.replace(/\s/g, "")];
-
+  console.log(options[selectedIndex]["destination"]);
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setOpen(false);
+    confirmSound.play();
   };
 
   const handleToggle = () => {
     setOpen(prevOpen => !prevOpen);
+    dropdownSound.play();
   };
 
   const handleClose = event => {
@@ -35,21 +38,25 @@ export default function ShipOperation(props) {
       return;
     }
     setOpen(false);
+    cancelSound.play();
   };
 
   React.useEffect(() => {
-    if (location && location !== destination) {
-      const newIndex = options.findIndex(x => x.destination === destination);
-      setSelectedIndex(newIndex);
-    } else {
+    return () => {
+      console.log("location changed :", location);
       setSelectedIndex(0);
-    }
-  }, [location, destination, options]);
+      console.log("index changed :", selectedIndex);
+    };
+    // if (location && location !== destination) {
+    //   const newIndex = options.findIndex(x => x.destination === destination);
+    //   setSelectedIndex(newIndex >= 0 ? newIndex : 0);
+    // }
+  }, [location]);
 
   return (
     <Grid container item alignItems="center" spacing={3}>
       <Grid xs={3} item>
-        <Button fullWidth size="large" variant="contained" color="primary">
+        <Button fullWidth size="large" variant="contained" color="secondary">
           <span style={{ flexGrow: 1 }} />
           <span>{name}</span>
           <span style={{ flexGrow: 1 }} />

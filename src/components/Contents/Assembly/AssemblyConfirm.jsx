@@ -8,6 +8,8 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import firebase from "../../../backend/firebase";
+import { cancelSound, confirmSound, assembleSound } from "../../../sound/Sound";
+import { useSnackbar } from "notistack";
 
 export default function AssemblyConfirm(props) {
   const {
@@ -19,17 +21,21 @@ export default function AssemblyConfirm(props) {
     customer,
     customerType,
     supplies,
-    capsule
+    capsule,
+    name
   } = props.spaceship;
   const { inputInit } = props;
   const [open, setOpen] = React.useState(false);
   const [isAssembled, setIsAssembled] = React.useState(assembled);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpen = () => {
+    confirmSound.play();
     setOpen(true);
   };
 
   const handleClose = () => {
+    cancelSound.play();
     setOpen(false);
   };
 
@@ -87,6 +93,11 @@ export default function AssemblyConfirm(props) {
         soyuzRockets: 0
       });
     inputInit();
+    assembleSound.play();
+    enqueueSnackbar(`${name} 우주선의 분해가 완료되었습니다.`, {
+      variant: "success",
+      autoHideDuration: 3000
+    });
   };
 
   const assemble = () => {
@@ -139,6 +150,11 @@ export default function AssemblyConfirm(props) {
       .collection("Spaceships")
       .doc(shipId)
       .update(Object.assign(props.input, { assembled: true }));
+    assembleSound.play();
+    enqueueSnackbar(`${name} 우주선의 조립이 완료되었습니다.`, {
+      variant: "success",
+      autoHideDuration: 3000
+    });
   };
 
   const confirm = () => {

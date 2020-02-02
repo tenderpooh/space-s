@@ -1,6 +1,11 @@
 import React from "react";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import { Build, MonetizationOn, Explore } from "@material-ui/icons";
+import {
+  Build,
+  MonetizationOn,
+  Explore,
+  MeetingRoom
+} from "@material-ui/icons";
 
 import SidebarIcons from "./SidebarIcons";
 
@@ -11,6 +16,7 @@ import Operation from "../components/Contents/Operation";
 import Navigation from "../components/Contents/Navigation";
 import Asset from "../components/Contents/Asset";
 import Customer from "../components/Contents/Customer";
+import Chatting from "../components/Contents/Chatting";
 
 const route = [
   {
@@ -47,6 +53,11 @@ const route = [
     text: "고객 서비스",
     icon: <SidebarIcons name="customer" size="24" color="white" />,
     component: <Customer />
+  },
+  {
+    text: "회의실",
+    icon: <MeetingRoom />,
+    component: <Chatting />
   }
 ];
 

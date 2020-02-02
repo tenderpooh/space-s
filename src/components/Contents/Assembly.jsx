@@ -11,7 +11,8 @@ const useStyles = makeStyles(theme => ({
   gridList: {
     flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: "translateZ(0)"
+    transform: "translateZ(0)",
+    margin: 0
   }
 }));
 
@@ -22,24 +23,26 @@ export default function Assembly() {
     <>
       <Grid container item xs={12} spacing={3}>
         <AssemblyAsset />
-      </Grid>
-      <GridList
-        className={classes.gridList}
-        cellHeight="auto"
-        cols={3.5}
-        spacing={10}
-      >
-        {spaceships.map((spaceship, index) => {
-          return (
-            <GridListTile key={index}>
-              <Spaceship data={spaceship} company={company} />
+        <Grid item>
+          <GridList
+            className={classes.gridList}
+            cellHeight="auto"
+            cols={3.5}
+            spacing={24}
+          >
+            {spaceships.map((spaceship, index) => {
+              return (
+                <GridListTile key={index}>
+                  <Spaceship data={spaceship} company={company} />
+                </GridListTile>
+              );
+            })}
+            <GridListTile>
+              <NewSpaceship companyId={user.company} />
             </GridListTile>
-          );
-        })}
-        <GridListTile>
-          <NewSpaceship companyId={user.company} />
-        </GridListTile>
-      </GridList>
+          </GridList>
+        </Grid>
+      </Grid>
     </>
   );
 }

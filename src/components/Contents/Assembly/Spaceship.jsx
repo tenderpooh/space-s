@@ -14,15 +14,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { LocationOn, Build, Add, Remove } from "@material-ui/icons";
 
 import AssemblyConfirm from "./AssemblyConfirm";
+import { cancelSound, confirmSound, dropdownSound } from "../../../sound/Sound";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
     width: "60%",
-    height: "100%",
     fontSize: "0.8rem"
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
     height: "100%"
   },
   row: {
@@ -70,17 +70,20 @@ export default function Spaceship(props) {
   const currentCapsuleLv1 = props.company.capsules.capsuleLv1;
   const currentCapsuleLv2 = props.company.capsules.capsuleLv2;
   const currentCapsuleLv3 = props.company.capsules.capsuleLv3;
+
   const handleCapsuleChange = e => {
-    console.log("capsule changed");
+    confirmSound.play();
     setCapsule(e.target.value);
   };
 
   const handleCustomerTypeChange = e => {
+    confirmSound.play();
     setCustomerType(e.target.value);
     setCustomer(0);
   };
 
   const handleNumber = e => {
+    cancelSound.play();
     switch (e.currentTarget.getAttribute("name")) {
       case "customer":
         setCustomer(Number(customer) + Number(e.currentTarget.value));
@@ -116,9 +119,11 @@ export default function Spaceship(props) {
 
   return (
     <Paper className={classes.paper}>
-      <Box fontWeight="fontWeightBold">{shipInfo.name}</Box>
-      <Divider />
-      <Grid container>
+      <Box fontWeight="fontWeightBold" fontSize="h6.fontSize">
+        {shipInfo.name}
+      </Box>
+      <Divider style={{ marginTop: 1, marginBottom: 1 }} />
+      <Grid container spacing={1}>
         <Grid container item>
           <Box width="50%" display="flex">
             <LocationOn fontSize="small" className={classes.icon} />
@@ -134,10 +139,10 @@ export default function Spaceship(props) {
             <Box>부품 구성</Box>
           </Box>
         </Grid>
-        <Grid container item className={classes.parts}>
+        <Grid container item className={classes.parts} spacing={1}>
           <Grid container item>
             <Box fontWeight="fontWeightBold">승차 캡슐</Box>
-            <Divider style={{ width: "100%" }} />
+            <Divider width="100%" style={{ marginTop: 1, marginBottom: 1 }} />
             <Grid container alignItems="center">
               <Box width="40%" textAlign="center">
                 캡슐
@@ -181,8 +186,8 @@ export default function Spaceship(props) {
             </Grid>
           </Grid>
           <Grid container item>
-            <Box fontWeight="fontWeightBold">승객 및 보급품</Box>
-            <Divider style={{ width: "100%" }} />
+            <Box fontWeight="fontWeightBold">고객 및 보급품</Box>
+            <Divider width="100%" style={{ marginTop: 1, marginBottom: 1 }} />
             <Grid container item alignItems="center">
               <Grid container alignItems="center">
                 <Box width="40%" textAlign="center">
@@ -213,7 +218,7 @@ export default function Spaceship(props) {
                 </FormControl>
               </Grid>
               <Box width="40%" textAlign="center">
-                승객
+                고객
               </Box>
               <Box width="60%">
                 <ButtonGroup
@@ -239,7 +244,7 @@ export default function Spaceship(props) {
                   >
                     <Remove />
                   </Button>
-                  <Button disabled style={{ color: "black" }}>
+                  <Button disabled style={{ color: "white" }}>
                     {customer}
                   </Button>
                   <Button
@@ -273,7 +278,7 @@ export default function Spaceship(props) {
                   >
                     <Remove />
                   </Button>
-                  <Button disabled style={{ color: "black" }}>
+                  <Button disabled style={{ color: "white" }}>
                     {supplies}
                   </Button>
                   <Button
@@ -288,9 +293,9 @@ export default function Spaceship(props) {
               </Box>
             </Grid>
           </Grid>
-          <Grid container item>
+          <Grid container item spacing={1}>
             <Box fontWeight="fontWeightBold">추진 로켓 구성</Box>
-            <Divider width="100%" />
+            <Divider width="100%" style={{ marginTop: 1, marginBottom: 1 }} />
             <Grid container alignItems="center">
               <Box width="40%" textAlign="center">
                 아틀라스 로켓
@@ -311,7 +316,7 @@ export default function Spaceship(props) {
                   >
                     <Remove />
                   </Button>
-                  <Button disabled style={{ color: "black" }}>
+                  <Button disabled style={{ color: "white" }}>
                     {atlasRockets}
                   </Button>
                   <Button
@@ -345,7 +350,7 @@ export default function Spaceship(props) {
                   >
                     <Remove />
                   </Button>
-                  <Button disabled style={{ color: "black" }}>
+                  <Button disabled style={{ color: "white" }}>
                     {soyuzRockets}
                   </Button>
                   <Button
@@ -361,7 +366,7 @@ export default function Spaceship(props) {
             </Grid>
           </Grid>
         </Grid>
-        <Divider width="100%" />
+        <Divider width="100%" style={{ marginTop: 1, marginBottom: 1 }} />
         {isEarth ? (
           <Grid container>
             <AssemblyConfirm

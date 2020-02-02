@@ -62,7 +62,7 @@ export default function PurchaseCustomer(props) {
         onClick={handleClickOpen}
         disabled={props.customer <= 0}
       >
-        구매
+        모객
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>

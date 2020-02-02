@@ -9,13 +9,17 @@ import {
   TextField
 } from "@material-ui/core";
 import firebase from "../../../backend/firebase";
+import { useSnackbar } from "notistack";
+import { dropdownSound, cancelSound, confirmSound } from "../../../sound/Sound";
 
 export default function NewSpaceship(props) {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState("");
   const companyId = props.companyId;
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpen = () => {
+    confirmSound.play();
     setOpen(true);
   };
 
@@ -24,6 +28,7 @@ export default function NewSpaceship(props) {
   };
 
   const handleClose = () => {
+    cancelSound.play();
     setOpen(false);
   };
 
@@ -45,19 +50,24 @@ export default function NewSpaceship(props) {
         soyuzRockets: 0,
         issues: 0,
         satisfaction: 100,
+        routes: ["지구"],
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
     setOpen(false);
+    dropdownSound.play();
+    enqueueSnackbar(`새로운 우주선이 준비되었습니다. 조립을 시작하십시오.`, {
+      variant: "success",
+      autoHideDuration: 3000
+    });
   };
   return (
     <>
       <Button
-        variant="contained"
+        variant="outlined"
         onClick={handleClickOpen}
         style={{
           height: "100%",
-          width: "100%",
-          backgroundColor: "white"
+          width: "100%"
         }}
       >
         <b>우주선 신규 조립</b>

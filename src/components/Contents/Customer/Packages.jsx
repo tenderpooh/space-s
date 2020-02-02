@@ -2,8 +2,11 @@ import React from "react";
 import { Grid, Paper, Box, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { DataContext } from "../../../backend/DataProvider";
-import { Flag } from "@material-ui/icons";
-import { yellow, green, blueGrey, red, grey } from "@material-ui/core/colors";
+import { grey } from "@material-ui/core/colors";
+import moonIcon from "./Icons/moonIcon.svg";
+import marsIcon from "./Icons/marsIcon.svg";
+import jupiterIcon from "./Icons/jupiterIcon.svg";
+import etcIcon from "./Icons/etcIcon.svg";
 
 import CustomerPurchase from "./CustomerPurchase";
 
@@ -65,57 +68,25 @@ export default function Packages() {
       title: "달 관람/착륙",
       price: game.moonPrice,
       customer: game.moonCustomer,
-      icon: (
-        <Flag
-          style={{
-            width: 80,
-            height: 80,
-            color: yellow["400"]
-          }}
-        />
-      )
+      icon: <img alt="icon" src={moonIcon} />
     },
     {
       title: "화성 관람/착륙",
       price: 0,
       customer: 0,
-      icon: (
-        <Flag
-          style={{
-            width: 80,
-            height: 80,
-            color: red["400"]
-          }}
-        />
-      )
+      icon: <img alt="icon" src={marsIcon} />
     },
     {
       title: "목성 관람/착륙",
       price: 0,
       customer: 0,
-      icon: (
-        <Flag
-          style={{
-            width: 80,
-            height: 80,
-            color: green["400"]
-          }}
-        />
-      )
+      icon: <img alt="icon" src={jupiterIcon} />
     },
     {
       title: "소행성 관람/착륙",
       price: 0,
       customer: 0,
-      icon: (
-        <Flag
-          style={{
-            width: 80,
-            height: 80,
-            color: blueGrey["400"]
-          }}
-        />
-      )
+      icon: <img alt="icon" src={etcIcon} />
     }
   ];
 

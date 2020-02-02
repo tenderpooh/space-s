@@ -3,12 +3,14 @@ import { Grid, Paper, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { DataContext } from "../../../backend/DataProvider";
 
-import { red, amber, teal, blueGrey } from "@material-ui/core/colors";
-import Icons from "./images/Icons";
+import capsuleIcon from "./images/capsuleIcon.svg";
+import rocketsIcon from "./images/rocketsIcon.svg";
+import suppliesIcon from "./images/suppliesIcon.svg";
+import customerIcon from "./images/customerIcon.svg";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
     color: theme.palette.text.primary,
     height: "100%"
   }
@@ -19,7 +21,7 @@ export default function AssemblyAsset() {
   const { company } = useContext(DataContext);
   const assets = [
     {
-      icon: <Icons size="100%" name="capsules" color={red[400]} />,
+      icon: <img alt="icon" src={capsuleIcon} />,
       title: "승차 캡슐",
       items: [
         { name: "10인승 캡슐", amount: company.capsules.capsuleLv1 },
@@ -30,36 +32,36 @@ export default function AssemblyAsset() {
     },
 
     {
-      icon: <Icons size="100%" name="customer" color={amber[400]} />,
-      title: "여행객",
+      icon: <img alt="icon" src={customerIcon} />,
+      title: "고객",
       items: [
         {
-          name: "달 여행객",
+          name: "달",
           amount: company.customer.moon
         },
         {
-          name: "화성 여행객",
+          name: "화성",
           amount: company.customer.mars
         },
         {
-          name: "목성 여행객",
+          name: "목성",
           amount: company.customer.jupiter
         },
         {
-          name: "기타 여행객",
+          name: "기타",
           amount: company.customer.etc
         }
       ],
       scale: "명"
     },
     {
-      icon: <Icons size="100%" name="supplies" color={teal[400]} />,
+      icon: <img alt="icon" src={suppliesIcon} />,
       title: "보급품",
-      items: [{ name: "승객용 보급품", amount: company.supplies }],
+      items: [{ name: "보급품", amount: company.supplies }],
       scale: "세트"
     },
     {
-      icon: <Icons size="100%" name="rockets" color={blueGrey[400]} />,
+      icon: <img alt="icon" src={rocketsIcon} />,
       title: "추진 로켓",
       items: [
         { name: "아틀라스 로켓", amount: company.rockets.atlas },
@@ -72,11 +74,16 @@ export default function AssemblyAsset() {
     return (
       <Grid key={index} item xs={3}>
         <Paper className={classes.paper}>
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" justifyContent="center">
             <Box width="40%">{asset.icon}</Box>
-            <Box width="60%">
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-end"
+              width="60%"
+            >
               <Box
-                fontSize="1.25rem"
+                fontSize="1rem"
                 fontWeight="fontWeightBold"
                 textAlign="right"
               >

@@ -11,10 +11,10 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { AppContext } from "../context/AppProvider";
 import { DataContext } from "../backend/DataProvider";
+import { useSnackbar } from "notistack";
 
 const drawerWidth = 200;
 const useStyles = makeStyles(theme => ({
@@ -63,6 +63,13 @@ const Header = () => {
   const classes = useStyles();
   const { menuOpened, menuToggle } = useContext(AppContext);
   const data = useContext(DataContext);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClick = () => {
+    enqueueSnackbar("hi!", {
+      variant: "success"
+    });
+  };
 
   return (
     <AppBar
@@ -70,6 +77,7 @@ const Header = () => {
       className={clsx(classes.appBar, {
         [classes.appBarShift]: menuOpened
       })}
+      color="secondary"
     >
       <Toolbar>
         <IconButton
@@ -85,14 +93,9 @@ const Header = () => {
         </Typography>
         <div className={classes.grow} />
         <div className={classes.sectionDesktop}>
-          <IconButton color="inherit">
+          <IconButton onClick={handleClick} color="inherit">
             <Badge badgeContent={44} color="secondary">
               <MailIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
-            <Badge badgeContent={17} color="secondary">
-              <NotificationsIcon />
             </Badge>
           </IconButton>
           <IconButton edge="end" color="inherit">

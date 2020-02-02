@@ -11,7 +11,6 @@ import {
   ListItemText
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { AppContext } from "../context/AppProvider";
 import route from "../route/Route";
 import NextRound from "../admin/NextRound";

@@ -1,4 +1,5 @@
 import React, { useState, createContext } from "react";
+import { menuSound, confirmSound } from "../sound/Sound";
 
 export const AppContext = createContext();
 
@@ -10,6 +11,7 @@ const AppProvider = ({ children }) => {
         menuOpened: !prevState.menuOpened
       };
     });
+    confirmSound.play();
   };
 
   const contentSelect = contentTitle => {
@@ -20,6 +22,7 @@ const AppProvider = ({ children }) => {
         menuOpened: false
       };
     });
+    menuSound.play();
   };
 
   const login = id => {
@@ -37,7 +40,7 @@ const AppProvider = ({ children }) => {
 
   const initialState = {
     menuOpened: false,
-    content: "고객 서비스",
+    content: "지도",
     user: null,
     isLogined: false,
     menuToggle,
